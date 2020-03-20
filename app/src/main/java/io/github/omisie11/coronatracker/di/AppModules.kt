@@ -1,6 +1,7 @@
 package io.github.omisie11.coronatracker.di
 
 import io.github.omisie11.coronatracker.data.MainRepository
+import io.github.omisie11.coronatracker.data.mappers.DataMappers
 import io.github.omisie11.coronatracker.data.remote.ApiService
 import io.github.omisie11.coronatracker.ui.GlobalViewModel
 import org.koin.dsl.module
@@ -11,6 +12,8 @@ val mainModule = module {
 }
 
 val networkModule = module {
+
+    single { DataMappers() }
 
     // Create Retrofit instance
     single {

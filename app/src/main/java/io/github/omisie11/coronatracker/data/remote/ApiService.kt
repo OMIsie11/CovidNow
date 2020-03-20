@@ -8,5 +8,4 @@ interface ApiService {
 
     @GET("api/")
     suspend fun getGlobalSummary(): Response<GlobalSummaryRemote>
-
 }
