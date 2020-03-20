@@ -9,7 +9,7 @@ class DataMappers {
         confirmed = data.confirmed?.value,
         recovered = data.recovered?.value,
         deaths = data.deaths?.value,
-        imageUrl = data.imageUrl,
-        lastUpdate = data.lastUpdate
+        imageUrl = data.imageUrl ?: "",
+        lastUpdate = data.lastUpdate ?: ""
     )
 }
