@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import io.github.omisie11.coronatracker.data.model.GlobalSummary
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GlobalSummaryDao {
@@ -20,7 +21,7 @@ interface GlobalSummaryDao {
     }
 
     @Query("select * from global_summary_table limit 1")
-    fun getGlobalSummary()
+    fun getGlobalSummaryFlow(): Flow<GlobalSummary>
 
     @Query("delete from global_summary_table")
     fun delete()

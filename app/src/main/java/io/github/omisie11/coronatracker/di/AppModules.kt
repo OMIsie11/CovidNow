@@ -44,7 +44,7 @@ val globalModule = module {
 
     single { get<AppDatabase>().globalSummaryDao() }
 
-    single { MainRepository(get()) }
+    single { MainRepository(get(), get(), get()) }
 
     single { GlobalViewModel(get()) }
 }
