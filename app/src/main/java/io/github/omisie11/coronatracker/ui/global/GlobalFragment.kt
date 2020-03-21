@@ -13,7 +13,6 @@ import io.github.omisie11.coronatracker.R
 import io.github.omisie11.coronatracker.vo.FetchResult
 import kotlinx.android.synthetic.main.fragment_global.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class GlobalFragment : Fragment() {
 
@@ -33,9 +32,9 @@ class GlobalFragment : Fragment() {
 
         globalViewModel.getGlobalSummary().observe(viewLifecycleOwner, Observer { summary ->
             if (summary != null) {
-                text_confirmed.text = summary.confirmed?.toString() ?: "No data"
-                text_recovered.text = summary.recovered?.toString() ?: "No data"
-                text_deaths.text = summary.deaths?.toString() ?: "No data"
+                text_confirmed.text = summary.confirmed?.toString() ?: getString(R.string.no_data)
+                text_recovered.text = summary.recovered?.toString() ?: getString(R.string.no_data)
+                text_deaths.text = summary.deaths?.toString() ?: getString(R.string.no_data)
             }
         })
 
@@ -45,9 +44,9 @@ class GlobalFragment : Fragment() {
 
         globalViewModel.snackbar.observe(viewLifecycleOwner, Observer { fetchResult ->
             val message: String? = when (fetchResult) {
-                FetchResult.SERVER_ERROR -> "Server error"
-                FetchResult.NETWORK_ERROR -> "Network error"
-                FetchResult.UNEXPECTED_ERROR -> "Unexpected error occurred"
+                FetchResult.SERVER_ERROR -> getString(R.string.server_error)
+                FetchResult.NETWORK_ERROR -> getString(R.string.network_error)
+                FetchResult.UNEXPECTED_ERROR -> getString(R.string.unexpected_error)
                 else -> null
             }
             message?.let {
@@ -63,7 +62,6 @@ class GlobalFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Timber.d("On resume")
         globalViewModel.refreshGlobalSummary(forceRefresh = false)
     }
 
@@ -77,7 +75,9 @@ class GlobalFragment : Fragment() {
         }
         snackbar.apply {
             view.layoutParams = layoutParams
-            setAction("Retry") { globalViewModel.refreshGlobalSummary(forceRefresh = true) }
+            setAction(getString(R.string.Retry)) {
+                globalViewModel.refreshGlobalSummary(true)
+            }
             show()
         }
     }

@@ -1,4 +1,14 @@
 <resources>
-    <string name="app_name">CoronaTracker</string>
+    <string name="app_name" translatable="false">CoronaTracker</string>
+    <string name="Retry">Retry</string>
+    <string name="server_error">Server error</string>
+    <string name="network_error">Network error</string>
+    <string name="unexpected_error">Unexpected error</string>
+    <string name="no_data">No data</string>
+    <string name="global_summary">Global Summary</string>
+    <string name="confirmed_cases">Confirmed cases</string>
+    <string name="number_blank" translatable="false">-</string>
+    <string name="deaths">Deaths</string>
+    <string name="recovered">Recovered</string>
 
 </resources>
