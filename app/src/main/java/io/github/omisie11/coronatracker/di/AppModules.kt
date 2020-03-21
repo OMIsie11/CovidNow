@@ -4,6 +4,7 @@ import androidx.room.Room
 import io.github.omisie11.coronatracker.data.local.AppDatabase
 import io.github.omisie11.coronatracker.data.mappers.DataMappers
 import io.github.omisie11.coronatracker.data.remote.ApiService
+import io.github.omisie11.coronatracker.data.remote.BASE_URL
 import io.github.omisie11.coronatracker.data.repository.GlobalSummaryRepository
 import io.github.omisie11.coronatracker.data.repository.LocalSummaryRepository
 import io.github.omisie11.coronatracker.ui.global.GlobalViewModel
@@ -33,7 +34,7 @@ val networkModule = module {
     // Create Retrofit instance
     single {
         Retrofit.Builder()
-            .baseUrl("https://covid19.mathdro.id/")
+            .baseUrl(BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
     }
