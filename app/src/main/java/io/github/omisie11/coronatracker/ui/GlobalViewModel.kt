@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.omisie11.coronatracker.data.GlobalSummaryRepository
 import io.github.omisie11.coronatracker.data.model.GlobalSummary
+import io.github.omisie11.coronatracker.vo.FetchResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -14,7 +15,7 @@ class GlobalViewModel(private val repository: GlobalSummaryRepository) : ViewMod
 
     private val globalSummary = MutableLiveData<GlobalSummary>()
     private val isDataFetching: LiveData<Boolean> = repository.getFetchingStatus()
-    private val _snackBar: MutableLiveData<String> = repository.getFetchResult()
+    private val _snackBar: MutableLiveData<FetchResult> = repository.getFetchResult()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -35,13 +36,13 @@ class GlobalViewModel(private val repository: GlobalSummaryRepository) : ViewMod
     /**
      * Request a snackbar to display a string.
      */
-    val snackbar: LiveData<String>
+    val snackbar: LiveData<FetchResult>
         get() = _snackBar
 
     /**
      * Called immediately after the UI shows the snackbar.
      */
     fun onSnackbarShown() {
-        _snackBar.value = null
+        _snackBar.value = FetchResult.OK
     }
 }

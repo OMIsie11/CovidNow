@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import io.github.omisie11.coronatracker.R
+import io.github.omisie11.coronatracker.vo.FetchResult
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -26,8 +27,14 @@ class MainActivity : AppCompatActivity() {
             swipe_refresh.isRefreshing = it
         })
 
-        globalViewModel.snackbar.observe(this, Observer { text ->
-            text?.let {
+        globalViewModel.snackbar.observe(this, Observer { fetchResult ->
+            val message: String? = when (fetchResult) {
+                FetchResult.SERVER_ERROR -> "Server error"
+                FetchResult.NETWORK_ERROR -> "Network error"
+                FetchResult.UNEXPECTED_ERROR -> "Unexpected error occurred"
+                else -> null
+            }
+            message?.let {
                 Snackbar.make(swipe_refresh, it, Snackbar.LENGTH_LONG).show()
                 globalViewModel.onSnackbarShown()
             }

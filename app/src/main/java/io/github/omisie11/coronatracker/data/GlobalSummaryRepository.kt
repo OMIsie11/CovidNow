@@ -6,6 +6,7 @@ import io.github.omisie11.coronatracker.data.local.dao.GlobalSummaryDao
 import io.github.omisie11.coronatracker.data.mappers.DataMappers
 import io.github.omisie11.coronatracker.data.model.GlobalSummary
 import io.github.omisie11.coronatracker.data.remote.ApiService
+import io.github.omisie11.coronatracker.vo.FetchResult
 import java.io.IOException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,13 +20,13 @@ class GlobalSummaryRepository(
 ) {
 
     private val isDataFetching = MutableLiveData(false)
-    private val fetchResult = MutableLiveData<String>()
+    private val fetchResult = MutableLiveData<FetchResult>(FetchResult.OK)
 
     fun getGlobalSummaryFlow() = globalSummaryDao.getGlobalSummaryFlow()
 
     fun getFetchingStatus(): LiveData<Boolean> = isDataFetching
 
-    fun getFetchResult(): MutableLiveData<String> = fetchResult
+    fun getFetchResult(): MutableLiveData<FetchResult> = fetchResult
 
     suspend fun fetchGlobalSummary() = withContext(Dispatchers.IO) {
         isDataFetching.postValue(true)
@@ -33,26 +34,22 @@ class GlobalSummaryRepository(
             val response = apiService.getGlobalSummary()
             when {
                 response.isSuccessful && response.body() != null -> {
-                    // Case 1: Success. We got a response with a body.
                     // save data in db
                     response.body()?.let {
                         saveGlobalSummary(mappers.mapToLocalSummary(it))
                     }
                     // save fetch time
+                    saveFetchTime()
                     Timber.d("Fetch success")
-                    // FetchResult.SUCCESS
+                    fetchResult.postValue(FetchResult.OK)
                 }
                 response.errorBody() != null -> {
-                    // Case 2: Failure. We got an error from the backend, deserialize it.
                     Timber.d("Server error")
-                    // FetchResult.SERVER_ERROR
-                    fetchResult.postValue("Server error")
+                    fetchResult.postValue(FetchResult.SERVER_ERROR)
                 }
                 else -> {
-                    // Case 3: Failure. Response didn't have a body. Show a vanilla error.
-                    Timber.d("Generic error")
-                    // FetchResult.GENERIC_ERROR
-                    fetchResult.postValue("Generic error")
+                    Timber.d("Response with empty body")
+                    fetchResult.postValue(FetchResult.UNEXPECTED_ERROR)
                 }
             }
         } catch (e: Exception) {
@@ -60,15 +57,15 @@ class GlobalSummaryRepository(
             when (e) {
                 is HttpException -> {
                     Timber.d("Http exception")
-                    fetchResult.postValue("Network error")
+                    fetchResult.postValue(FetchResult.NETWORK_ERROR)
                 }
                 is IOException -> {
                     Timber.d("IO exception")
-                    fetchResult.postValue("Network error")
+                    fetchResult.postValue(FetchResult.NETWORK_ERROR)
                 }
                 else -> {
                     Timber.d("Other exception")
-                    fetchResult.postValue("Unexpected error")
+                    fetchResult.postValue(FetchResult.UNEXPECTED_ERROR)
                 }
             }
         }
@@ -77,5 +74,8 @@ class GlobalSummaryRepository(
 
     private suspend fun saveGlobalSummary(data: GlobalSummary) {
         globalSummaryDao.replace(data)
+    }
+
+    private suspend fun saveFetchTime() {
     }
 }
