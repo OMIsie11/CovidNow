@@ -28,9 +28,11 @@ class GlobalFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        globalViewModel.getGlobalSummary().observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                text_view.text = it.confirmed.toString()
+        globalViewModel.getGlobalSummary().observe(viewLifecycleOwner, Observer { summary ->
+            if (summary != null) {
+                text_confirmed.text = summary.confirmed?.toString() ?: "No data"
+                text_recovered.text = summary.recovered?.toString() ?: "No data"
+                text_deaths.text = summary.deaths?.toString() ?: "No data"
             }
         })
 

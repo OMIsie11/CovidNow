@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="Theme.CovidTracker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.CovidTracker" parent="Theme.MaterialComponents.NoActionBar">
         <!--Color-->
         <item name="colorPrimary">@color/primary_700</item>
         <item name="colorPrimaryVariant">@color/primary_800</item>
@@ -18,6 +18,10 @@
         <item name="colorOnSurface">@color/on_primary_50</item>
         <item name="colorOnError">@color/on_secondary_900</item>
 
+    </style>
+
+    <style name="Theme.CovidTracker.SplashScreen">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
 </resources>
