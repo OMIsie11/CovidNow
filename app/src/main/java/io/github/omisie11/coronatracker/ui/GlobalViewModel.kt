@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.github.omisie11.coronatracker.data.GlobalSummaryRepository
 import io.github.omisie11.coronatracker.data.model.GlobalSummary
+import io.github.omisie11.coronatracker.data.repository.GlobalSummaryRepository
 import io.github.omisie11.coronatracker.vo.FetchResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -30,7 +30,7 @@ class GlobalViewModel(private val repository: GlobalSummaryRepository) : ViewMod
     fun getDataFetchingStatus(): LiveData<Boolean> = isDataFetching
 
     fun fetchGlobalSummary() {
-        viewModelScope.launch(Dispatchers.IO) { repository.fetchGlobalSummary() }
+        viewModelScope.launch(Dispatchers.IO) { repository.fetchDataFromApi() }
     }
 
     /**

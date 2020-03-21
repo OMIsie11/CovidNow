@@ -1,45 +1,35 @@
-package io.github.omisie11.coronatracker.data
+package io.github.omisie11.coronatracker.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.github.omisie11.coronatracker.data.local.dao.GlobalSummaryDao
-import io.github.omisie11.coronatracker.data.mappers.DataMappers
-import io.github.omisie11.coronatracker.data.model.GlobalSummary
-import io.github.omisie11.coronatracker.data.remote.ApiService
 import io.github.omisie11.coronatracker.vo.FetchResult
 import java.io.IOException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
+import retrofit2.Response
 import timber.log.Timber
 
-class GlobalSummaryRepository(
-    private val apiService: ApiService,
-    private val globalSummaryDao: GlobalSummaryDao,
-    private val mappers: DataMappers
-) {
+abstract class BaseRepository<RemoteModel, LocalModel> {
 
     private val isDataFetching = MutableLiveData(false)
-    private val fetchResult = MutableLiveData<FetchResult>(FetchResult.OK)
-
-    fun getGlobalSummaryFlow() = globalSummaryDao.getGlobalSummaryFlow()
+    private val fetchResult = MutableLiveData(FetchResult.OK)
 
     fun getFetchingStatus(): LiveData<Boolean> = isDataFetching
 
     fun getFetchResult(): MutableLiveData<FetchResult> = fetchResult
 
-    suspend fun fetchGlobalSummary() = withContext(Dispatchers.IO) {
+    suspend fun fetchDataFromApi() = withContext(Dispatchers.IO) {
         isDataFetching.postValue(true)
         try {
-            val response = apiService.getGlobalSummary()
+            val response = makeApiCall()
             when {
                 response.isSuccessful && response.body() != null -> {
                     // save data in db
-                    response.body()?.let {
-                        saveGlobalSummary(mappers.mapToLocalSummary(it))
+                    response.body()?.let { data ->
+                        saveToDb(mapRemoteModelToLocal(data))
                     }
-                    // save fetch time
-                    saveFetchTime()
+                    // save fetch time here
                     Timber.d("Fetch success")
                     fetchResult.postValue(FetchResult.OK)
                 }
@@ -72,10 +62,9 @@ class GlobalSummaryRepository(
         isDataFetching.postValue(false)
     }
 
-    private suspend fun saveGlobalSummary(data: GlobalSummary) {
-        globalSummaryDao.replace(data)
-    }
+    protected abstract suspend fun makeApiCall(): Response<RemoteModel>
 
-    private suspend fun saveFetchTime() {
-    }
+    protected abstract suspend fun saveToDb(data: LocalModel)
+
+    protected abstract suspend fun mapRemoteModelToLocal(data: RemoteModel): LocalModel
 }
