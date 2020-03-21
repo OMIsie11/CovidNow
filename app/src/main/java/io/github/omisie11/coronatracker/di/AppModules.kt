@@ -1,7 +1,7 @@
 package io.github.omisie11.coronatracker.di
 
 import androidx.room.Room
-import io.github.omisie11.coronatracker.data.MainRepository
+import io.github.omisie11.coronatracker.data.GlobalSummaryRepository
 import io.github.omisie11.coronatracker.data.local.AppDatabase
 import io.github.omisie11.coronatracker.data.mappers.DataMappers
 import io.github.omisie11.coronatracker.data.remote.ApiService
@@ -44,7 +44,7 @@ val globalModule = module {
 
     single { get<AppDatabase>().globalSummaryDao() }
 
-    single { MainRepository(get(), get(), get()) }
+    single { GlobalSummaryRepository(get(), get(), get()) }
 
     single { GlobalViewModel(get()) }
 }
