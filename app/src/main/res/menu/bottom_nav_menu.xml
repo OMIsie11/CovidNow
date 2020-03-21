@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/global_dest"
+        android:icon="@drawable/ic_language_24dp"
+        android:title="Global" />
+    <item
+        android:id="@+id/local_dest"
+        android:icon="@drawable/ic_home_24dp"
+        android:title="Local" />
+    <item
+        android:id="@+id/settings_dest"
+        android:icon="@drawable/ic_settings_24dp"
+        android:title="Settings" />
+</menu>

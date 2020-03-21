@@ -5,7 +5,7 @@ import io.github.omisie11.coronatracker.data.local.AppDatabase
 import io.github.omisie11.coronatracker.data.mappers.DataMappers
 import io.github.omisie11.coronatracker.data.remote.ApiService
 import io.github.omisie11.coronatracker.data.repository.GlobalSummaryRepository
-import io.github.omisie11.coronatracker.ui.GlobalViewModel
+import io.github.omisie11.coronatracker.ui.global.GlobalViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 import retrofit2.Retrofit

@@ -1,4 +1,4 @@
-package io.github.omisie11.coronatracker.ui
+package io.github.omisie11.coronatracker.ui.global
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

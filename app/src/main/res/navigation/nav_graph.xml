@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/global_dest">
+
+    <fragment
+        android:id="@+id/global_dest"
+        android:name="io.github.omisie11.coronatracker.ui.global.GlobalFragment"
+        android:label="Global Summary"
+        tools:layout="@layout/fragment_global" />
+    <fragment
+        android:id="@+id/local_dest"
+        android:name="io.github.omisie11.coronatracker.ui.local.LocalFragment"
+        android:label="Local Info"
+        tools:layout="@layout/fragment_local" />
+    <fragment
+        android:id="@+id/settings_dest"
+        android:name="io.github.omisie11.coronatracker.ui.settings.SettingsFragment"
+        android:label="Settings" />
+</navigation>
