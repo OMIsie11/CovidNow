@@ -1,10 +1,10 @@
 package io.github.omisie11.coronatracker.data.repository
 
 import io.github.omisie11.coronatracker.data.local.dao.GlobalSummaryDao
+import io.github.omisie11.coronatracker.data.local.model.GlobalSummary
 import io.github.omisie11.coronatracker.data.mappers.DataMappers
-import io.github.omisie11.coronatracker.data.model.GlobalSummary
-import io.github.omisie11.coronatracker.data.model.GlobalSummaryRemote
 import io.github.omisie11.coronatracker.data.remote.ApiService
+import io.github.omisie11.coronatracker.data.remote.model.GlobalSummaryRemote
 import retrofit2.Response
 
 class GlobalSummaryRepository(

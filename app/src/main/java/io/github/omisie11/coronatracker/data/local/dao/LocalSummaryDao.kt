@@ -5,24 +5,24 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import io.github.omisie11.coronatracker.data.local.model.GlobalSummary
+import io.github.omisie11.coronatracker.data.local.model.LocalSummary
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface GlobalSummaryDao {
+interface LocalSummaryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(data: GlobalSummary)
+    fun insert(data: LocalSummary)
 
     @Transaction
-    fun replace(data: GlobalSummary) {
+    fun replace(data: LocalSummary) {
         delete()
         insert(data)
     }
 
-    @Query("select * from global_summary_table limit 1")
-    fun getGlobalSummaryFlow(): Flow<GlobalSummary>
+    @Query("select * from local_summary_table limit 1")
+    fun getLocalSummaryFlow(): Flow<LocalSummary>
 
-    @Query("delete from global_summary_table")
+    @Query("delete from local_summary_table")
     fun delete()
 }

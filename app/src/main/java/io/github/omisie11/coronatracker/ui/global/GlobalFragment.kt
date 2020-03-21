@@ -53,8 +53,6 @@ class GlobalFragment : Fragment() {
             }
         })
 
-        swipe_refresh.setOnRefreshListener {
-            globalViewModel.fetchGlobalSummary()
-        }
+        swipe_refresh.setOnRefreshListener { globalViewModel.fetchGlobalSummary() }
     }
 }

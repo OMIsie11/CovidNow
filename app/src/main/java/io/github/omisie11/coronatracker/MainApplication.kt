@@ -2,6 +2,7 @@ package io.github.omisie11.coronatracker
 
 import android.app.Application
 import io.github.omisie11.coronatracker.di.globalModule
+import io.github.omisie11.coronatracker.di.localModule
 import io.github.omisie11.coronatracker.di.mainModule
 import io.github.omisie11.coronatracker.di.networkModule
 import io.github.omisie11.coronatracker.util.CrashReportingTree
@@ -20,7 +21,7 @@ class MainApplication : Application() {
             androidLogger()
             androidContext(this@MainApplication)
             androidFileProperties()
-            modules(listOf(mainModule, networkModule, globalModule))
+            modules(listOf(mainModule, networkModule, globalModule, localModule))
         }
 
         // Logging in Debug build, in release log only crashes

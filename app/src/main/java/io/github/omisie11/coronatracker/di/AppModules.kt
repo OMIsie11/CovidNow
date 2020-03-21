@@ -5,7 +5,9 @@ import io.github.omisie11.coronatracker.data.local.AppDatabase
 import io.github.omisie11.coronatracker.data.mappers.DataMappers
 import io.github.omisie11.coronatracker.data.remote.ApiService
 import io.github.omisie11.coronatracker.data.repository.GlobalSummaryRepository
+import io.github.omisie11.coronatracker.data.repository.LocalSummaryRepository
 import io.github.omisie11.coronatracker.ui.global.GlobalViewModel
+import io.github.omisie11.coronatracker.ui.local.LocalViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -53,4 +55,19 @@ val globalModule = module {
     }
 
     single { GlobalViewModel(get()) }
+}
+
+val localModule = module {
+
+    single { get<AppDatabase>().localSummaryDao() }
+
+    single {
+        LocalSummaryRepository(
+            get(),
+            get(),
+            get()
+        )
+    }
+
+    single { LocalViewModel(get()) }
 }
