@@ -1,5 +1,6 @@
 package io.github.omisie11.coronatracker.di
 
+import android.preference.PreferenceManager
 import androidx.room.Room
 import io.github.omisie11.coronatracker.data.local.AppDatabase
 import io.github.omisie11.coronatracker.data.mappers.DataMappers
@@ -25,6 +26,8 @@ val mainModule = module {
             .fallbackToDestructiveMigration()
             .build()
     }
+
+    single { PreferenceManager.getDefaultSharedPreferences(get()) }
 }
 
 val networkModule = module {
@@ -51,6 +54,7 @@ val globalModule = module {
         GlobalSummaryRepository(
             get(),
             get(),
+            get(),
             get()
         )
     }
@@ -64,6 +68,7 @@ val localModule = module {
 
     single {
         LocalSummaryRepository(
+            get(),
             get(),
             get(),
             get()

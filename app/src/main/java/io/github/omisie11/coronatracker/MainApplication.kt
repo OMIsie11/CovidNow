@@ -1,6 +1,7 @@
 package io.github.omisie11.coronatracker
 
 import android.app.Application
+import com.jakewharton.threetenabp.AndroidThreeTen
 import io.github.omisie11.coronatracker.di.globalModule
 import io.github.omisie11.coronatracker.di.localModule
 import io.github.omisie11.coronatracker.di.mainModule
@@ -16,6 +17,7 @@ class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        AndroidThreeTen.init(this)
 
         startKoin {
             androidLogger()

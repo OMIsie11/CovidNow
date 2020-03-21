@@ -11,6 +11,7 @@ import io.github.omisie11.coronatracker.R
 import io.github.omisie11.coronatracker.vo.FetchResult
 import kotlinx.android.synthetic.main.fragment_global.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class GlobalFragment : Fragment() {
 
@@ -53,6 +54,14 @@ class GlobalFragment : Fragment() {
             }
         })
 
-        swipe_refresh.setOnRefreshListener { globalViewModel.fetchGlobalSummary() }
+        swipe_refresh.setOnRefreshListener {
+            globalViewModel.refreshGlobalSummary(forceRefresh = true)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.d("On resume")
+        globalViewModel.refreshGlobalSummary(forceRefresh = false)
     }
 }

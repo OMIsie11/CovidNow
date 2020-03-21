@@ -27,8 +27,8 @@ class LocalViewModel(private val repository: LocalSummaryRepository) : ViewModel
 
     fun getDataFetchingStatus(): LiveData<Boolean> = isDataFetching
 
-    fun fetchSummary() {
-        viewModelScope.launch(Dispatchers.IO) { repository.fetchDataFromApi() }
+    fun refreshLocalSummary(forceRefresh: Boolean = false) {
+        viewModelScope.launch(Dispatchers.IO) { repository.refreshData(forceRefresh) }
     }
 
     /**

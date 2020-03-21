@@ -65,6 +65,8 @@ dependencies {
     implementation "org.koin:koin-androidx-viewmodel:2.1.4"
     // Timber
     implementation "com.jakewharton.timber:timber:4.7.1"
+    // ThreeTenABP
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.2'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

@@ -27,8 +27,8 @@ class GlobalViewModel(private val repository: GlobalSummaryRepository) : ViewMod
 
     fun getDataFetchingStatus(): LiveData<Boolean> = isDataFetching
 
-    fun fetchGlobalSummary() {
-        viewModelScope.launch(Dispatchers.IO) { repository.fetchDataFromApi() }
+    fun refreshGlobalSummary(forceRefresh: Boolean = false) {
+        viewModelScope.launch(Dispatchers.IO) { repository.refreshData(forceRefresh) }
     }
 
     /**
