@@ -1,9 +1,11 @@
 package io.github.omisie11.coronatracker.ui.local
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
@@ -49,7 +51,7 @@ class LocalFragment : Fragment() {
                 else -> null
             }
             message?.let {
-                Snackbar.make(swipe_refresh, it, Snackbar.LENGTH_LONG).show()
+                showErrorSnackbar(it)
                 localViewModel.onSnackbarShown()
             }
         })
@@ -63,5 +65,20 @@ class LocalFragment : Fragment() {
         super.onResume()
         Timber.d("On resume")
         localViewModel.refreshLocalSummary(forceRefresh = false)
+    }
+
+    private fun showErrorSnackbar(text: String) {
+        val snackbar = Snackbar.make(swipe_refresh, text, Snackbar.LENGTH_LONG)
+        val layoutParams = snackbar.view.layoutParams as CoordinatorLayout.LayoutParams
+        layoutParams.apply {
+            anchorId = R.id.bottom_navigation
+            layoutParams.anchorGravity = Gravity.TOP
+            layoutParams.gravity = Gravity.TOP
+        }
+        snackbar.apply {
+            view.layoutParams = layoutParams
+            setAction("Retry") { localViewModel.refreshLocalSummary(forceRefresh = true) }
+            show()
+        }
     }
 }
