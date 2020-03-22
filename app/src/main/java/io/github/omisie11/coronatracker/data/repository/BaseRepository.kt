@@ -3,6 +3,7 @@ package io.github.omisie11.coronatracker.data.repository
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.github.omisie11.coronatracker.util.PREFS_KEY_REFRESH_INTERVAL
 import io.github.omisie11.coronatracker.vo.FetchResult
 import java.io.IOException
 import kotlinx.coroutines.NonCancellable
@@ -17,9 +18,6 @@ abstract class BaseRepository<RemoteModel, LocalModel>(
 ) {
 
     protected abstract val lastRefreshKey: String
-
-    private val SECONDS_IN_HOUR = 3600
-    private val REFRESH_INTERVAL = 3
 
     private val isDataFetching = MutableLiveData(false)
     private val fetchResult = MutableLiveData(FetchResult.OK)
@@ -84,7 +82,7 @@ abstract class BaseRepository<RemoteModel, LocalModel>(
     protected abstract suspend fun mapRemoteModelToLocal(data: RemoteModel): LocalModel
 
     private fun isDataRefreshNeeded(): Boolean {
-        val refreshInterval: Long = (SECONDS_IN_HOUR * REFRESH_INTERVAL).toLong()
+        val refreshInterval: Long = getRefreshInterval() * NUMBER_OF_SECONDS_IN_HOUR
         val lastRefresh: Long = getLastRefreshTime()
         val currentTime: Long = Instant.now().epochSecond
 
@@ -92,6 +90,10 @@ abstract class BaseRepository<RemoteModel, LocalModel>(
     }
 
     private fun getLastRefreshTime(): Long = sharedPrefs.getLong(lastRefreshKey, 0)
+
+    // Stored as String because of usage of Preference library
+    private fun getRefreshInterval(): Long =
+        sharedPrefs.getString(PREFS_KEY_REFRESH_INTERVAL, "3")?.toLong() ?: 3L
 
     /**
      * Saves current time as last refresh time
@@ -101,5 +103,9 @@ abstract class BaseRepository<RemoteModel, LocalModel>(
             putLong(lastRefreshKey, Instant.now().epochSecond)
             apply()
         }
+    }
+
+    companion object {
+        const val NUMBER_OF_SECONDS_IN_HOUR = 3600
     }
 }

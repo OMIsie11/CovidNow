@@ -18,10 +18,20 @@
         <item name="colorOnSurface">@color/on_primary_50</item>
         <item name="colorOnError">@color/on_secondary_900</item>
 
+        <item name="alertDialogTheme">@style/MaterialAlertDialog</item>
     </style>
 
     <style name="Theme.CovidTracker.SplashScreen">
         <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+
+    <!-- Styles needed to theme Settings ListPreference button on alert dialog -->
+    <style name="MaterialAlertDialog" parent="Theme.MaterialComponents.Dialog.Alert">
+        <item name="colorAccent">@color/secondary_400</item>
+        <item name="buttonBarButtonStyle">@style/MaterialButtonBarButtonStyle</item>
+    </style>
+    <style name="MaterialButtonBarButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/secondary_400</item>
     </style>
 
 </resources>
