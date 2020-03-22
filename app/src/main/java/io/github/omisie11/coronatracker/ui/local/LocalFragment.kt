@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
@@ -75,6 +76,7 @@ class LocalFragment : Fragment() {
         }
         snackbar.apply {
             view.layoutParams = layoutParams
+            setActionTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_400))
             setAction(getString(R.string.Retry)) {
                 localViewModel.refreshLocalSummary(true)
             }
