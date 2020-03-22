@@ -11,6 +11,7 @@ import io.github.omisie11.coronatracker.data.repository.LocalSummaryRepository
 import io.github.omisie11.coronatracker.ui.global.GlobalViewModel
 import io.github.omisie11.coronatracker.ui.local.LocalViewModel
 import org.koin.android.ext.koin.androidApplication
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -59,7 +60,7 @@ val globalModule = module {
         )
     }
 
-    single { GlobalViewModel(get()) }
+    viewModel { GlobalViewModel(get()) }
 }
 
 val localModule = module {
@@ -75,5 +76,5 @@ val localModule = module {
         )
     }
 
-    single { LocalViewModel(get()) }
+    viewModel { LocalViewModel(get()) }
 }
