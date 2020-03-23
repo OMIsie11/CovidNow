@@ -3,10 +3,10 @@
 
     <!-- Possible values in refresh interval in Settings -->
     <string-array name="settings_refresh_interval_entries">
-        <item name="3_hours">3 hours</item>
-        <item name="4_hours">4 hours</item>
-        <item name="5_hours">5 hours</item>
-        <item name="6_hours">6 hours</item>
+        <item name="3_hours">@string/settings_interval_entry_3_hours</item>
+        <item name="4_hours">@string/settings_interval_entry_4_hours</item>
+        <item name="5_hours">@string/settings_interval_entry_5_hours</item>
+        <item name="6_hours">@string/settings_interval_entry_6_hours</item>
     </string-array>
     <string-array name="settings_refresh_interval_values">
         <item name="3_hours">3</item>

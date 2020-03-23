@@ -17,4 +17,5 @@
     <color name="on_background">#212121</color>
 
     <color name="splash_screen_bg">#212121</color>
+    <color name="status_bar_bg">#212121</color>
 </resources>

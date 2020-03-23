@@ -1,15 +1,22 @@
 package io.github.omisie11.coronatracker.ui
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.preference.PreferenceManager
 import io.github.omisie11.coronatracker.R
+import io.github.omisie11.coronatracker.util.PREFS_KEY_APP_THEME
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
+
+    private val sharedPrefs: SharedPreferences by inject()
+    private lateinit var sharedPrefsListener: SharedPreferences.OnSharedPreferenceChangeListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_CovidTracker)
@@ -21,6 +28,32 @@ class MainActivity : AppCompatActivity() {
         PreferenceManager.setDefaultValues(this, R.xml.app_preferences, false)
 
         setupNavigation()
+
+        sharedPrefsListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            when (key) {
+                PREFS_KEY_APP_THEME ->
+                    AppCompatDelegate.setDefaultNightMode(
+                        translateValueToDayNightMode(
+                            sharedPrefs.getBoolean(PREFS_KEY_APP_THEME, false)
+                        )
+                    )
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        sharedPrefs.registerOnSharedPreferenceChangeListener(sharedPrefsListener)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        sharedPrefs.unregisterOnSharedPreferenceChangeListener(sharedPrefsListener)
+    }
+
+    private fun translateValueToDayNightMode(value: Boolean): Int = when (value) {
+        true -> AppCompatDelegate.MODE_NIGHT_YES
+        false -> AppCompatDelegate.MODE_NIGHT_NO
     }
 
     private fun setupNavigation() {

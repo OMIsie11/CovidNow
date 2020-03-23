@@ -20,7 +20,7 @@
         <item name="colorError">@color/error</item>
         <item name="colorOnError">@color/on_error</item>
 
-        <item name="android:statusBarColor">@color/primary</item>
+        <item name="android:statusBarColor">@color/status_bar_bg</item>
 
         <item name="alertDialogTheme">@style/MaterialAlertDialog</item>
     </style>

@@ -10,6 +10,17 @@
     <string name="number_blank" translatable="false">-</string>
     <string name="deaths">Deaths</string>
     <string name="recovered">Recovered</string>
+
+    <!-- Settings screen -->
     <string name="general_settings">General Settings</string>
+    <string name="settings_dark_mode_title">Dark mode</string>
+    <string name="settings_dark_mode_summary_on">Dark mode enabled</string>
+    <string name="settings_dark_mode_summary_off">Dark mode disabled</string>
+    <string name="settings_refresh_interval_title">Data refresh interval</string>
+    <string name="settings_refresh_interval_dialog_title">Set data auto refresh interval</string>
+    <string name="settings_interval_entry_3_hours">3 hours</string>
+    <string name="settings_interval_entry_4_hours">4 hours</string>
+    <string name="settings_interval_entry_5_hours">5 hours</string>
+    <string name="settings_interval_entry_6_hours">6 hours</string>
 
 </resources>
