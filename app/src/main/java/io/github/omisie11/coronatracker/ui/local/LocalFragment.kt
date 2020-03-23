@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import io.github.omisie11.coronatracker.R
 import io.github.omisie11.coronatracker.vo.FetchResult
@@ -67,6 +68,14 @@ class LocalFragment : Fragment() {
 
         swipe_refresh.setOnRefreshListener {
             localViewModel.refreshLocalSummary(forceRefresh = true)
+        }
+
+        image_edit_location.setOnClickListener {
+            val bottomSheetFragment = ChooseLocationBottomDialogFragment()
+            bottomSheetFragment.show(
+                requireActivity().supportFragmentManager,
+                bottomSheetFragment.tag
+            )
         }
 
         image_confirmed.setOnClickListener { pie_chart_local.highlightValue(0f, 0) }
