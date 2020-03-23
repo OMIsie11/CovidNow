@@ -16,6 +16,8 @@
     <color name="background">#212121</color>
     <color name="on_background">#fafafa</color>
 
-
+    <color name="pie_chart_red">#ef9a9a</color>
+    <color name="pie_chart_yellow">#ffe082</color>
+    <color name="pie_chart_green">#a5d6a7</color>
 
 </resources>

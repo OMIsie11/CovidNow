@@ -9,6 +9,9 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.google.android.material.snackbar.Snackbar
 import io.github.omisie11.coronatracker.R
 import io.github.omisie11.coronatracker.vo.FetchResult
@@ -31,12 +34,18 @@ class GlobalFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        styleGlobalPieChart()
+
         globalViewModel.getGlobalSummary().observe(viewLifecycleOwner, Observer { summary ->
             if (summary != null) {
                 text_confirmed.text = summary.confirmed?.toString() ?: getString(R.string.no_data)
                 text_recovered.text = summary.recovered?.toString() ?: getString(R.string.no_data)
                 text_deaths.text = summary.deaths?.toString() ?: getString(R.string.no_data)
             }
+        })
+
+        globalViewModel.getGlobalPieChartData().observe(viewLifecycleOwner, Observer { chartData ->
+            setDataToPieChart(chartData)
         })
 
         globalViewModel.getDataFetchingStatus().observe(viewLifecycleOwner, Observer {
@@ -66,6 +75,29 @@ class GlobalFragment : Fragment() {
         globalViewModel.refreshGlobalSummary(forceRefresh = false)
     }
 
+    private fun setDataToPieChart(data: List<PieEntry>) {
+        val dataSet = PieDataSet(data, "")
+        setupDataSetStyle(dataSet)
+        val pieData = PieData(dataSet)
+        pie_chart_global.data = pieData
+        pie_chart_global.invalidate()
+    }
+
+    private fun setupDataSetStyle(dataSet: PieDataSet) = dataSet.apply {
+        colors = getPieChartColorsPalette()
+        valueTextSize = 16f
+    }
+
+    private fun styleGlobalPieChart() = pie_chart_global.apply {
+        description.isEnabled = false
+        legend.isEnabled = false
+        isDrawHoleEnabled = true
+        setDrawEntryLabels(false)
+        transparentCircleRadius = 0f
+        setHoleColor(ContextCompat.getColor(requireContext(), R.color.background))
+        invalidate()
+    }
+
     private fun showErrorSnackbar(text: String) {
         val snackbar = Snackbar.make(swipe_refresh, text, Snackbar.LENGTH_LONG)
         val layoutParams = snackbar.view.layoutParams as CoordinatorLayout.LayoutParams
@@ -83,4 +115,10 @@ class GlobalFragment : Fragment() {
             show()
         }
     }
+
+    private fun getPieChartColorsPalette(): List<Int> = listOf(
+        ContextCompat.getColor(context!!, R.color.pie_chart_yellow),
+        ContextCompat.getColor(context!!, R.color.pie_chart_green),
+        ContextCompat.getColor(context!!, R.color.pie_chart_red)
+    )
 }

@@ -18,4 +18,8 @@
 
     <color name="splash_screen_bg">#212121</color>
     <color name="status_bar_bg">#212121</color>
+    
+    <color name="pie_chart_red">#ef5350</color>
+    <color name="pie_chart_yellow">#ffca28</color>
+    <color name="pie_chart_green">#66bb6a</color>
 </resources>
