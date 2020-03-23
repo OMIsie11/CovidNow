@@ -37,10 +37,13 @@ class GlobalSummaryRepository(
     override suspend fun mapRemoteModelToLocal(data: GlobalSummaryRemote): GlobalSummary =
         mappers.mapToLocalSummary(data)
 
-    private fun mapGlobalSummaryToPieChartEntry(data: GlobalSummary): List<PieEntry> =
-        listOf(
-            PieEntry(data.confirmed?.toFloat() ?: 0F, "confirmed"),
-            PieEntry(data.recovered?.toFloat() ?: 0F, "recovered"),
-            PieEntry(data.deaths?.toFloat() ?: 0F, "deaths")
-        )
+    private fun mapGlobalSummaryToPieChartEntry(data: GlobalSummary?): List<PieEntry> {
+        return if (data != null) {
+            listOf(
+                PieEntry(data.confirmed?.toFloat() ?: 0F, "confirmed"),
+                PieEntry(data.recovered?.toFloat() ?: 0F, "recovered"),
+                PieEntry(data.deaths?.toFloat() ?: 0F, "deaths")
+            )
+        } else emptyList()
+    }
 }

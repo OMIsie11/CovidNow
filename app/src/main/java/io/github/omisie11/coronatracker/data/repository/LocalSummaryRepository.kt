@@ -29,7 +29,7 @@ class LocalSummaryRepository(
 
     fun getLocalSummaryPieChartDataFlow(): Flow<List<PieEntry>> =
         localSummaryDao.getLocalSummaryFlow()
-            .map { summary -> mapGlobalSummaryToPieChartEntry(summary) }
+            .map { summary -> mapLocalSummaryToPieChartEntry(summary) }
 
     override suspend fun makeApiCall(): Response<LocalSummaryRemote> =
         apiService.getLocalSummary(BASE_COUNTRY_URL + country)
@@ -41,10 +41,13 @@ class LocalSummaryRepository(
     override suspend fun mapRemoteModelToLocal(data: LocalSummaryRemote): LocalSummary =
         mappers.mapToLocalSummary(data)
 
-    private fun mapGlobalSummaryToPieChartEntry(data: LocalSummary): List<PieEntry> =
-        listOf(
-            PieEntry(data.confirmed?.toFloat() ?: 0F, "confirmed"),
-            PieEntry(data.recovered?.toFloat() ?: 0F, "recovered"),
-            PieEntry(data.deaths?.toFloat() ?: 0F, "deaths")
-        )
+    private fun mapLocalSummaryToPieChartEntry(data: LocalSummary?): List<PieEntry> {
+        return if (data != null) {
+            listOf(
+                PieEntry(data.confirmed?.toFloat() ?: 0F, "confirmed"),
+                PieEntry(data.recovered?.toFloat() ?: 0F, "recovered"),
+                PieEntry(data.deaths?.toFloat() ?: 0F, "deaths")
+            )
+        } else emptyList()
+    }
 }
