@@ -1,6 +1,7 @@
 package io.github.omisie11.coronatracker
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import com.jakewharton.threetenabp.AndroidThreeTen
 import io.github.omisie11.coronatracker.di.globalModule
 import io.github.omisie11.coronatracker.di.localModule
@@ -17,6 +18,9 @@ class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
         AndroidThreeTen.init(this)
 
         startKoin {

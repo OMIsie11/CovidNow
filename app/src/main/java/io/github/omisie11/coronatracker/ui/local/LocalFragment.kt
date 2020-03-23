@@ -76,7 +76,7 @@ class LocalFragment : Fragment() {
         }
         snackbar.apply {
             view.layoutParams = layoutParams
-            setActionTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_400))
+            setActionTextColor(ContextCompat.getColor(requireContext(), R.color.secondary))
             setAction(getString(R.string.Retry)) {
                 localViewModel.refreshLocalSummary(true)
             }

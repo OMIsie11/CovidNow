@@ -1,22 +1,26 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="Theme.CovidTracker" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.CovidTracker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!--Color-->
-        <item name="colorPrimary">@color/primary_700</item>
-        <item name="colorPrimaryVariant">@color/primary_800</item>
-        <item name="colorSecondary">@color/secondary_500</item>
-        <item name="colorSecondaryVariant">@color/secondary_400</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_variant</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
 
-        <item name="android:colorBackground">@color/primary_800</item>
-        <item name="colorSurface">@color/primary_700</item>
-        <item name="colorError">@color/error_red_400</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondaryVariant">@color/secondary_variant</item>
+        <item name="colorOnSecondary">@color/on_secondary</item>
 
-        <item name="colorOnPrimary">@color/on_primary_50</item>
-        <item name="colorOnSecondary">@color/on_secondary_900</item>
-        <item name="colorOnBackground">@color/on_primary_50</item>
-        <item name="colorOnSurface">@color/on_primary_50</item>
-        <item name="colorOnError">@color/on_secondary_900</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorOnBackground">@color/on_background</item>
+
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/on_surface</item>
+
+        <item name="colorError">@color/error</item>
+        <item name="colorOnError">@color/on_error</item>
+
+        <item name="android:statusBarColor">@color/primary</item>
 
         <item name="alertDialogTheme">@style/MaterialAlertDialog</item>
     </style>
@@ -27,11 +31,11 @@
 
     <!-- Styles needed to theme Settings ListPreference button on alert dialog -->
     <style name="MaterialAlertDialog" parent="Theme.MaterialComponents.Dialog.Alert">
-        <item name="colorAccent">@color/secondary_400</item>
+        <item name="colorAccent">@color/secondary</item>
         <item name="buttonBarButtonStyle">@style/MaterialButtonBarButtonStyle</item>
     </style>
     <style name="MaterialButtonBarButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">@color/secondary_400</item>
+        <item name="android:textColor">@color/secondary</item>
     </style>
 
 </resources>
