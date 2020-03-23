@@ -6,7 +6,7 @@
     <string name="unexpected_error">Unexpected error</string>
     <string name="no_data">No data</string>
     <string name="global_summary">Global Summary</string>
-    <string name="confirmed_cases">Confirmed cases</string>
+    <string name="confirmed">Confirmed</string>
     <string name="number_blank" translatable="false">-</string>
     <string name="deaths">Deaths</string>
     <string name="recovered">Recovered</string>

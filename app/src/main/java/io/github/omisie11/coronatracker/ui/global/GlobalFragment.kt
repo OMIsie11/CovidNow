@@ -85,13 +85,15 @@ class GlobalFragment : Fragment() {
 
     private fun setupDataSetStyle(dataSet: PieDataSet) = dataSet.apply {
         colors = getPieChartColorsPalette()
-        valueTextSize = 16f
+        setDrawValues(false)
     }
 
     private fun styleGlobalPieChart() = pie_chart_global.apply {
         description.isEnabled = false
         legend.isEnabled = false
         isDrawHoleEnabled = true
+        holeRadius = 60f
+        setTouchEnabled(false)
         setDrawEntryLabels(false)
         transparentCircleRadius = 0f
         setHoleColor(ContextCompat.getColor(requireContext(), R.color.background))
