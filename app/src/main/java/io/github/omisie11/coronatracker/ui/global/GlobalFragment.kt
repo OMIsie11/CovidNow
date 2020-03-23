@@ -68,6 +68,10 @@ class GlobalFragment : Fragment() {
         swipe_refresh.setOnRefreshListener {
             globalViewModel.refreshGlobalSummary(forceRefresh = true)
         }
+
+        image_confirmed.setOnClickListener { pie_chart_global.highlightValue(0f, 0) }
+        image_recovered.setOnClickListener { pie_chart_global.highlightValue(1f, 0) }
+        image_deaths.setOnClickListener { pie_chart_global.highlightValue(2f, 0) }
     }
 
     override fun onResume() {

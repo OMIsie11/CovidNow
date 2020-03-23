@@ -68,6 +68,10 @@ class LocalFragment : Fragment() {
         swipe_refresh.setOnRefreshListener {
             localViewModel.refreshLocalSummary(forceRefresh = true)
         }
+
+        image_confirmed.setOnClickListener { pie_chart_local.highlightValue(0f, 0) }
+        image_recovered.setOnClickListener { pie_chart_local.highlightValue(1f, 0) }
+        image_deaths.setOnClickListener { pie_chart_local.highlightValue(2f, 0) }
     }
 
     override fun onResume() {
