@@ -1,5 +1,6 @@
 package io.github.omisie11.coronatracker.ui.local
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -14,13 +15,16 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.google.android.material.snackbar.Snackbar
 import io.github.omisie11.coronatracker.R
+import io.github.omisie11.coronatracker.util.PREFS_KEY_CHOSEN_LOCATION
 import io.github.omisie11.coronatracker.vo.FetchResult
 import kotlinx.android.synthetic.main.fragment_local.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class LocalFragment : Fragment() {
 
-    private val localViewModel by viewModel<LocalViewModel>()
+    private val localViewModel by sharedViewModel<LocalViewModel>()
+    private val sharedPrefs: SharedPreferences by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +39,7 @@ class LocalFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         styleGlobalPieChart()
+        text_country_title.text = getChosenLocation()
 
         localViewModel.getSummary().observe(viewLifecycleOwner, Observer { summary ->
             if (summary != null) {
@@ -67,6 +72,14 @@ class LocalFragment : Fragment() {
 
         swipe_refresh.setOnRefreshListener {
             localViewModel.refreshLocalSummary(forceRefresh = true)
+        }
+
+        image_edit_location.setOnClickListener {
+            val bottomSheetFragment = ChooseLocationBottomDialogFragment()
+            bottomSheetFragment.show(
+                requireActivity().supportFragmentManager,
+                bottomSheetFragment.tag
+            )
         }
 
         image_confirmed.setOnClickListener { pie_chart_local.highlightValue(0f, 0) }
@@ -127,4 +140,7 @@ class LocalFragment : Fragment() {
         ContextCompat.getColor(context!!, R.color.pie_chart_green),
         ContextCompat.getColor(context!!, R.color.pie_chart_red)
     )
+
+    private fun getChosenLocation(): String =
+        sharedPrefs.getString(PREFS_KEY_CHOSEN_LOCATION, "Poland") ?: "Poland"
 }

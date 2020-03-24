@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import com.jakewharton.threetenabp.AndroidThreeTen
+import io.github.omisie11.coronatracker.di.countriesModule
 import io.github.omisie11.coronatracker.di.globalModule
 import io.github.omisie11.coronatracker.di.localModule
 import io.github.omisie11.coronatracker.di.mainModule
@@ -28,7 +29,7 @@ class MainApplication : Application() {
             androidLogger()
             androidContext(this@MainApplication)
             androidFileProperties()
-            modules(listOf(mainModule, networkModule, globalModule, localModule))
+            modules(listOf(mainModule, networkModule, globalModule, localModule, countriesModule))
         }
 
         // Logging in Debug build, in release log only crashes

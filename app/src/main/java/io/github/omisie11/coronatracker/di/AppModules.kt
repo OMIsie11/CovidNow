@@ -6,10 +6,12 @@ import io.github.omisie11.coronatracker.data.local.AppDatabase
 import io.github.omisie11.coronatracker.data.mappers.DataMappers
 import io.github.omisie11.coronatracker.data.remote.ApiService
 import io.github.omisie11.coronatracker.data.remote.BASE_URL
+import io.github.omisie11.coronatracker.data.repository.CountriesRepository
 import io.github.omisie11.coronatracker.data.repository.GlobalSummaryRepository
 import io.github.omisie11.coronatracker.data.repository.LocalSummaryRepository
 import io.github.omisie11.coronatracker.ui.global.GlobalViewModel
 import io.github.omisie11.coronatracker.ui.local.LocalViewModel
+import io.github.omisie11.coronatracker.ui.settings.CountriesViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -77,4 +79,24 @@ val localModule = module {
     }
 
     viewModel { LocalViewModel(get()) }
+}
+
+val countriesModule = module {
+
+    single { get<AppDatabase>().countriesDao() }
+
+    single {
+        CountriesRepository(
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+
+    viewModel {
+        CountriesViewModel(
+            get()
+        )
+    }
 }
