@@ -2,6 +2,8 @@
 Simple application for tracking Covid-19 info, stay safe 😷
 ### Get latest app version from this repository [releases](https://github.com/OMIsie11/CoronaTracker/releases) section 🎁
 
+![covid_app_screenshots](https://user-images.githubusercontent.com/31706606/77448124-bc7b5780-6df0-11ea-8519-4075774296a9.png)
+
 ## App is using:
 * Kotlin (Coroutines + Flow)💎
 * [COVID-19 API](https://github.com/mathdroid/covid-19-api) 📈
