@@ -42,7 +42,7 @@ class LocalSummaryRepository(
     private fun getChosenLocation(): String =
         sharedPrefs.getString(PREFS_KEY_CHOSEN_LOCATION, "Poland") ?: "Poland"
 
-    private fun mapGlobalSummaryToPieChartEntry(data: LocalSummary?): List<PieEntry> {
+    private fun mapLocalSummaryToPieChartEntry(data: LocalSummary?): List<PieEntry> {
         return if (data != null) {
             listOf(
                 PieEntry(data.confirmed?.toFloat() ?: 0F, "confirmed"),
