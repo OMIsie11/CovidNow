@@ -21,4 +21,14 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Location">
+
+        <ListPreference
+            android:defaultValue="Poland"
+            android:dialogTitle="Choose Your country"
+            android:key="chosen_location"
+            android:title="Country showed in Local Tab" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

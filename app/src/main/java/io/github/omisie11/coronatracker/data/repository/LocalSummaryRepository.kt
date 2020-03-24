@@ -8,7 +8,7 @@ import io.github.omisie11.coronatracker.data.mappers.DataMappers
 import io.github.omisie11.coronatracker.data.remote.ApiService
 import io.github.omisie11.coronatracker.data.remote.BASE_COUNTRY_URL
 import io.github.omisie11.coronatracker.data.remote.model.LocalSummaryRemote
-import io.github.omisie11.coronatracker.util.PREFS_CHOSEN_LOCATION
+import io.github.omisie11.coronatracker.util.PREFS_KEY_CHOSEN_LOCATION
 import io.github.omisie11.coronatracker.util.PREFS_LAST_REFRESH_LOCAL_SUMMARY
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -40,14 +40,7 @@ class LocalSummaryRepository(
         mappers.mapToLocalSummary(data)
 
     private fun getChosenLocation(): String =
-        sharedPrefs.getString(PREFS_CHOSEN_LOCATION, "poland") ?: "poland"
-
-    private fun saveNewLocation(newLocation: String) {
-        with(sharedPrefs.edit()) {
-            putString(PREFS_CHOSEN_LOCATION, newLocation)
-            apply()
-        }
-    }
+        sharedPrefs.getString(PREFS_KEY_CHOSEN_LOCATION, "Poland") ?: "Poland"
 
     private fun mapGlobalSummaryToPieChartEntry(data: LocalSummary?): List<PieEntry> {
         return if (data != null) {

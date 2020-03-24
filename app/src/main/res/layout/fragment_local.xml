@@ -17,13 +17,13 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/text_country_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="Poland Summary"
+                android:text="Poland"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -37,11 +37,11 @@
                 android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_create_24dp"
                 android:tint="@color/secondary"
-                app:layout_constraintBottom_toBottomOf="@+id/textView"
+                app:layout_constraintBottom_toBottomOf="@+id/text_country_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/textView"
-                app:layout_constraintTop_toTopOf="@+id/textView" />
+                app:layout_constraintStart_toEndOf="@+id/text_country_title"
+                app:layout_constraintTop_toTopOf="@+id/text_country_title" />
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pie_chart_local"
@@ -52,7 +52,7 @@
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toBottomOf="@+id/text_country_title" />
 
             <ImageView
                 android:id="@+id/image_recovered"

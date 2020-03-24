@@ -16,5 +16,4 @@ class ChooseLocationBottomDialogFragment : BottomSheetDialogFragment() {
     ): View? = inflater.inflate(
         R.layout.bottom_sheet_choose_location, container, false
     )
-
 }
