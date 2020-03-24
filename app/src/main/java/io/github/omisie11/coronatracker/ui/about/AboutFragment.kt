@@ -30,12 +30,10 @@ class AboutFragment : Fragment() {
         chip_website_omisie11.setOnClickListener { openWebUrl(getString(R.string.website_url_omisie11)) }
         chip_source_code.setOnClickListener { openWebUrl(getString(R.string.source_code_url)) }
 
-        card_attribution_api.setOnClickListener {
+        chip_attribution_api.setOnClickListener {
             openWebUrl(getString(R.string.api_url))
         }
-        card_attribution_used_libraries.setOnClickListener {
-            findNavController().navigate(R.id.used_libraries_dest)
-        }
+        chip_used_libs.setOnClickListener { findNavController().navigate(R.id.used_libraries_dest) }
     }
 
     private fun openWebUrl(urlAddress: String) {

@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
             android:text="Created by"
             app:layout_constraintEnd_toEndOf="parent"
@@ -124,65 +124,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/chip_source_code" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_attribution_api"
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_attribution_api"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:minWidth="320dp"
-            app:cardElevation="4dp"
+            android:text="COVID-19 API"
+            android:textColor="@color/secondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView18">
+            app:layout_constraintTop_toBottomOf="@+id/textView18"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-
-                <TextView
-                    android:id="@+id/text_attribution_api"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxWidth="300dp"
-                    android:padding="8dp"
-                    android:text="Application is using COVID-19 API"
-                    android:textAlignment="center" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_attribution_used_libraries"
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_used_libs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
-            android:minWidth="320dp"
-            app:cardElevation="4dp"
+            android:text="Awesome libraries"
+            android:textColor="@color/secondary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_attribution_api">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-
-                <TextView
-                    android:id="@+id/text_attribution_used_libraries"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxWidth="300dp"
-                    android:padding="8dp"
-                    android:text="Check out awesome libraries that helped me with this project"
-                    android:textAlignment="center" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            app:layout_constraintTop_toBottomOf="@+id/chip_attribution_api" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
