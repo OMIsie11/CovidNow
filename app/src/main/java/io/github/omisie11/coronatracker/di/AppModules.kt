@@ -2,6 +2,8 @@ package io.github.omisie11.coronatracker.di
 
 import android.preference.PreferenceManager
 import androidx.room.Room
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.github.omisie11.coronatracker.data.local.AppDatabase
 import io.github.omisie11.coronatracker.data.mappers.DataMappers
 import io.github.omisie11.coronatracker.data.remote.ApiService
@@ -19,6 +21,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 val mainModule = module {
+
+    single {
+        Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+    }
 
     single {
         Room.databaseBuilder(

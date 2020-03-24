@@ -19,4 +19,18 @@
         android:id="@+id/settings_dest"
         android:name="io.github.omisie11.coronatracker.ui.settings.SettingsFragment"
         android:label="Settings" />
+    <fragment
+        android:id="@+id/about_dest"
+        android:name="io.github.omisie11.coronatracker.ui.about.AboutFragment"
+        android:label="About"
+        tools:layout="@layout/fragment_about" >
+        <action
+            android:id="@+id/action_about_dest_to_used_libraries_dest3"
+            app:destination="@id/used_libraries_dest" />
+    </fragment>
+    <fragment
+        android:id="@+id/used_libraries_dest"
+        android:name="io.github.omisie11.coronatracker.ui.about.used_libraries.UsedLibrariesFragment"
+        android:label="UsedLibrariesFragment"
+        tools:layout="@layout/fragment_used_libraries"/>
 </navigation>

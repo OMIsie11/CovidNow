@@ -3,13 +3,17 @@
     <item
         android:id="@+id/global_dest"
         android:icon="@drawable/ic_language_24dp"
-        android:title="Global" />
+        android:title="@string/global" />
     <item
         android:id="@+id/local_dest"
         android:icon="@drawable/ic_home_24dp"
-        android:title="Local" />
+        android:title="@string/local" />
     <item
         android:id="@+id/settings_dest"
         android:icon="@drawable/ic_settings_24dp"
-        android:title="Settings" />
+        android:title="@string/settings" />
+    <item
+        android:id="@+id/about_dest"
+        android:icon="@drawable/ic_help_outline_24dp"
+        android:title="@string/about" />
 </menu>
