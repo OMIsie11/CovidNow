@@ -49,7 +49,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/image_confirmed"
                 app:layout_constraintEnd_toEndOf="@+id/text_recovered"
                 app:layout_constraintStart_toStartOf="@+id/text_recovered"
-                app:layout_constraintTop_toTopOf="@+id/image_confirmed" />
+                app:layout_constraintTop_toTopOf="@+id/image_confirmed"
+                android:contentDescription="@string/recovered_icon" />
 
             <ImageView
                 android:id="@+id/image_confirmed"
@@ -60,7 +61,8 @@
                 android:tint="@color/pie_chart_yellow"
                 app:layout_constraintEnd_toEndOf="@+id/textView2"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
-                app:layout_constraintTop_toBottomOf="@+id/pie_chart_global" />
+                app:layout_constraintTop_toBottomOf="@+id/pie_chart_global"
+                android:contentDescription="@string/confirmed_icon" />
 
             <ImageView
                 android:id="@+id/image_deaths"
@@ -71,7 +73,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/image_confirmed"
                 app:layout_constraintEnd_toEndOf="@+id/text_deaths"
                 app:layout_constraintStart_toStartOf="@+id/text_deaths"
-                app:layout_constraintTop_toTopOf="@+id/image_confirmed" />
+                app:layout_constraintTop_toTopOf="@+id/image_confirmed"
+                android:contentDescription="@string/deaths_icon" />
 
             <TextView
                 android:id="@+id/text_confirmed"

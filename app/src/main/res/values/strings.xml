@@ -33,5 +33,23 @@
     <string name="twitter_url_omisie11" translatable="false">https://twitter.com/omisie11</string>
     <string name="website_url_omisie11" translatable="false">https://omisie11.github.io</string>
     <string name="source_code_url" translatable="false">https://github.com/OMIsie11/CoronaTracker</string>
+    <string name="source_code">Source code</string>
+    <string name="covid_19_api" translatable="false">COVID-19 API</string>
+    <string name="credits">Credits</string>
+    <string name="awesome_libraries">Awesome libraries</string>
+    <string name="get_the_app_source_code_on_github">Get the app source code on GitHub</string>
+    <string name="website">Website</string>
+    <string name="twitter" translatable="false">Twitter</string>
+    <string name="github" translatable="false">GitHub</string>
+    <string name="you_can_find_me_at">You can find me at</string>
+    <string name="omisie11" translatable="false">OMIsie11</string>
+    <string name="created_by">Created by</string>
+    <string name="you_can_change_location_in_settings">You can change location in Settings</string>
+    <string name="recovered_icon">Recovered icon</string>
+    <string name="confirmed_icon">confirmed icon</string>
+    <string name="deaths_icon">deaths icon</string>
+    <string name="edit_location_icon">edit location icon</string>
+    <string name="choose_your_country">Choose Your country</string>
+    <string name="country_showed_in_local_tab">Country showed in Local Tab</string>
 
 </resources>

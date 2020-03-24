@@ -18,7 +18,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
-            android:text="Created by"
+            android:text="@string/created_by"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="OMIsie11"
+            android:text="@string/omisie11"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_constraintEnd_toEndOf="@+id/textView2"
             app:layout_constraintStart_toStartOf="@+id/textView2"
@@ -41,7 +41,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:text="You can find me at"
+            android:text="@string/you_can_find_me_at"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -68,22 +68,22 @@
                     android:id="@+id/chip_github"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="GitHub"
-                    android:textColor="@color/secondary"/>
+                    android:text="@string/github"
+                    android:textColor="@color/primary"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_twitter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Twitter"
-                    android:textColor="@color/secondary"/>
+                    android:text="@string/twitter"
+                    android:textColor="@color/primary"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_website_omisie11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Website"
-                    android:textColor="@color/secondary"/>
+                    android:text="@string/website"
+                    android:textColor="@color/primary"/>
 
             </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
@@ -95,7 +95,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="Get the app cource code on GitHub"
+            android:text="@string/get_the_app_source_code_on_github"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
@@ -106,8 +106,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:text="Source code"
-            android:textColor="@color/secondary"
+            android:text="@string/source_code"
+            android:textColor="@color/primary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView20" />
@@ -119,7 +119,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="Credits"
+            android:text="@string/credits"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/chip_source_code" />
@@ -128,8 +128,8 @@
             android:id="@+id/chip_attribution_api"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="COVID-19 API"
-            android:textColor="@color/secondary"
+            android:text="@string/covid_19_api"
+            android:textColor="@color/primary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView18"/>
@@ -139,8 +139,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="Awesome libraries"
-            android:textColor="@color/secondary"
+            android:text="@string/awesome_libraries"
+            android:textColor="@color/primary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
