@@ -1,7 +1,9 @@
 package io.github.omisie11.coronatracker.ui.about.used_libraries
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class UsedLibrary(
     @field:Json(name = "name")
     val name: String,

@@ -70,7 +70,7 @@ class UsedLibrariesFragment : Fragment(), UsedLibrariesAdapter.OnItemClickListen
 
     private fun getUsedLibraries(): List<UsedLibrary> {
         val objectString: String =
-            activity!!.resources.openRawResource(R.raw.used_libraries).bufferedReader()
+            requireActivity().resources.openRawResource(R.raw.used_libraries).bufferedReader()
                 .use { it.readText() }
         val libsListType = Types.newParameterizedType(List::class.java, UsedLibrary::class.java)
         val jsonAdapter = moshi.adapter<List<UsedLibrary>>(libsListType)
