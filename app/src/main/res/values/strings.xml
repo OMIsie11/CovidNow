@@ -51,5 +51,8 @@
     <string name="edit_location_icon">edit location icon</string>
     <string name="choose_your_country">Choose Your country</string>
     <string name="country_showed_in_local_tab">Country showed in Local Tab</string>
+    <string name="privacy">Privacy</string>
+    <string name="privacy_info">All data collected by application stays on Your device and is never
+        shared or send to developer.\nI respect Your privacy.\nStay safe.</string>
 
 </resources>
