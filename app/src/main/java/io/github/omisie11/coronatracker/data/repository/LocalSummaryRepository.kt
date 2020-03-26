@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import com.github.mikephil.charting.data.PieEntry
 import io.github.omisie11.coronatracker.data.local.dao.LocalSummaryDao
 import io.github.omisie11.coronatracker.data.local.model.LocalSummary
-import io.github.omisie11.coronatracker.data.mappers.DataMappers
+import io.github.omisie11.coronatracker.data.mappers.mapToLocalSummary
 import io.github.omisie11.coronatracker.data.remote.ApiService
 import io.github.omisie11.coronatracker.data.remote.BASE_COUNTRY_URL
 import io.github.omisie11.coronatracker.data.remote.model.LocalSummaryRemote
@@ -17,7 +17,6 @@ import retrofit2.Response
 class LocalSummaryRepository(
     private val apiService: ApiService,
     private val localSummaryDao: LocalSummaryDao,
-    private val mappers: DataMappers,
     private val sharedPrefs: SharedPreferences
 ) : BaseRepository<LocalSummaryRemote, LocalSummary>(sharedPrefs) {
 
@@ -37,7 +36,7 @@ class LocalSummaryRepository(
     }
 
     override suspend fun mapRemoteModelToLocal(data: LocalSummaryRemote): LocalSummary =
-        mappers.mapToLocalSummary(data)
+        data.mapToLocalSummary()
 
     private fun getChosenLocation(): String =
         sharedPrefs.getString(PREFS_KEY_CHOSEN_LOCATION, "Poland") ?: "Poland"

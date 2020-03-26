@@ -5,7 +5,6 @@ import androidx.room.Room
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.github.omisie11.coronatracker.data.local.AppDatabase
-import io.github.omisie11.coronatracker.data.mappers.DataMappers
 import io.github.omisie11.coronatracker.data.remote.ApiService
 import io.github.omisie11.coronatracker.data.remote.BASE_URL
 import io.github.omisie11.coronatracker.data.repository.CountriesRepository
@@ -43,8 +42,6 @@ val mainModule = module {
 
 val networkModule = module {
 
-    single { DataMappers() }
-
     // Create Retrofit instance
     single {
         Retrofit.Builder()
@@ -65,7 +62,6 @@ val globalModule = module {
         GlobalSummaryRepository(
             get(),
             get(),
-            get(),
             get()
         )
     }
@@ -81,7 +77,6 @@ val localModule = module {
         LocalSummaryRepository(
             get(),
             get(),
-            get(),
             get()
         )
     }
@@ -95,7 +90,6 @@ val countriesModule = module {
 
     single {
         CountriesRepository(
-            get(),
             get(),
             get(),
             get()
