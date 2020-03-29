@@ -3,7 +3,7 @@ package io.github.omisie11.coronatracker.data.repository
 import android.content.SharedPreferences
 import io.github.omisie11.coronatracker.data.local.dao.CountriesDao
 import io.github.omisie11.coronatracker.data.local.model.Country
-import io.github.omisie11.coronatracker.data.mappers.mapToLocalCountry
+import io.github.omisie11.coronatracker.data.mappers.mapToLocalCountryList
 import io.github.omisie11.coronatracker.data.remote.ApiService
 import io.github.omisie11.coronatracker.data.remote.model.CountriesRemote
 import io.github.omisie11.coronatracker.util.PREFS_LAST_REFRESH_COUNTRIES
@@ -23,7 +23,7 @@ class CountriesRepository(
     override suspend fun makeApiCall(): Response<CountriesRemote> = apiService.getCountries()
 
     override suspend fun mapRemoteModelToLocal(data: CountriesRemote): List<Country> =
-        data.mapToLocalCountry()
+        data.mapToLocalCountryList()
 
     override suspend fun saveToDb(data: List<Country>) {
         countriesDao.replace(data)

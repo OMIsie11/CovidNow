@@ -24,7 +24,7 @@ fun LocalSummaryRemote.mapToLocalSummary(): LocalSummary =
         lastUpdate = this.lastUpdate ?: ""
     )
 
-fun CountriesRemote.mapToLocalCountry(): List<Country> {
+fun CountriesRemote.mapToLocalCountryList(): List<Country> {
     val result = mutableListOf<Country>()
     if (!this.countries.isNullOrEmpty()) {
         for (item in this.countries) {
