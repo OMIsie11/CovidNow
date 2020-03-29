@@ -1,4 +1,4 @@
-# CoronaTracker
+# CovidNow Android App
 Simple application for tracking Covid-19 info, stay safe 😷
 ### Get latest app version from this repository [releases](https://github.com/OMIsie11/CoronaTracker/releases) section 🎁
 
