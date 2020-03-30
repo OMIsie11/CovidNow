@@ -7,16 +7,21 @@ import com.nhaarman.mockitokotlin2.verify
 import io.github.omisie11.coronatracker.data.local.dao.GlobalSummaryDao
 import io.github.omisie11.coronatracker.data.local.model.GlobalSummary
 import io.github.omisie11.coronatracker.data.remote.ApiService
+import io.github.omisie11.coronatracker.data.remote.model.GlobalSummaryRemote
 import io.github.omisie11.coronatracker.utils.testGlobalSummary
 import io.github.omisie11.coronatracker.utils.testGlobalSummaryPieChartData
+import io.github.omisie11.coronatracker.utils.testGlobalSummaryRemote
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
+import okhttp3.MediaType
+import okhttp3.ResponseBody
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -26,6 +31,7 @@ import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import retrofit2.Response
 
 @ExperimentalCoroutinesApi
 @RunWith(JUnit4::class)
@@ -63,7 +69,7 @@ class GlobalSummaryRepositoryTest {
     }
 
     @Test
-    fun getGlobalSummaryFlow() = kotlinx.coroutines.runBlocking {
+    fun getGlobalSummaryFlow() = runBlocking {
         val globalSummaryFlow = flowOf(testGlobalSummaryLocal)
 
         Mockito.`when`(globalSummaryDao.getGlobalSummaryFlow()).thenAnswer {
@@ -77,7 +83,7 @@ class GlobalSummaryRepositoryTest {
     }
 
     @Test
-    fun getGlobalSummaryPieChartDataFlow_validData() = kotlinx.coroutines.runBlocking {
+    fun getGlobalSummaryPieChartDataFlow_validData() = runBlocking {
         val globalSummaryFlow = flowOf(testGlobalSummaryLocal)
 
         Mockito.`when`(globalSummaryDao.getGlobalSummaryFlow()).thenAnswer {
@@ -92,5 +98,36 @@ class GlobalSummaryRepositoryTest {
         for (i in result.indices) {
             assert(expected[i].value == result[i].value)
         }
+    }
+
+    @Test
+    fun refreshData_force_validResponse_VerifyDataSaved() = runBlocking {
+        val networkResponse = Response.success(testGlobalSummaryRemote)
+        Mockito.`when`(apiService.getGlobalSummary()).thenAnswer {
+            return@thenAnswer networkResponse
+        }
+
+        globalSummaryRepository.refreshData(forceRefresh = true)
+
+        verify(apiService, times(1)).getGlobalSummary()
+        verify(globalSummaryDao, times(1)).replace(testGlobalSummaryLocal)
+    }
+
+    @Test
+    fun refreshData_force_errorResponse_VerifyNotDataSaved() = runBlocking {
+        val responseError: Response<GlobalSummaryRemote> = Response.error(
+            403,
+            ResponseBody.create(
+                MediaType.parse("application/json"), "Bad Request"
+            )
+        )
+        Mockito.`when`(apiService.getGlobalSummary()).thenAnswer {
+            return@thenAnswer responseError
+        }
+
+        globalSummaryRepository.refreshData(forceRefresh = true)
+
+        verify(apiService, times(1)).getGlobalSummary()
+        verify(globalSummaryDao, times(0)).replace(testGlobalSummaryLocal)
     }
 }

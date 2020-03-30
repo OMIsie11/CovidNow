@@ -7,8 +7,11 @@ import com.nhaarman.mockitokotlin2.verify
 import io.github.omisie11.coronatracker.data.local.dao.LocalSummaryDao
 import io.github.omisie11.coronatracker.data.local.model.LocalSummary
 import io.github.omisie11.coronatracker.data.remote.ApiService
+import io.github.omisie11.coronatracker.data.remote.BASE_COUNTRY_URL
+import io.github.omisie11.coronatracker.data.remote.model.LocalSummaryRemote
 import io.github.omisie11.coronatracker.utils.testLocalSummary
 import io.github.omisie11.coronatracker.utils.testLocalSummaryPieChartData
+import io.github.omisie11.coronatracker.utils.testLocalSummaryRemote
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -18,6 +21,8 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
+import okhttp3.MediaType
+import okhttp3.ResponseBody
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -27,6 +32,7 @@ import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import retrofit2.Response
 
 @ExperimentalCoroutinesApi
 @RunWith(JUnit4::class)
@@ -34,6 +40,7 @@ class LocalSummaryRepositoryTest {
 
     private val testLocalSummaryLocal = testLocalSummary
     private val testLocalChartData = testLocalSummaryPieChartData
+    private val testCountryUrl = BASE_COUNTRY_URL + "Poland"
 
     private val testDispatcher = TestCoroutineDispatcher()
 
@@ -92,5 +99,34 @@ class LocalSummaryRepositoryTest {
         for (i in result.indices) {
             assert(expected[i].value == result[i].value)
         }
+    }
+
+    @Test
+    fun refreshData_force_validResponse_VerifyDataSaved() = runBlocking {
+        val networkResponse = Response.success(testLocalSummaryRemote)
+        Mockito.`when`(apiService.getLocalSummary(testCountryUrl)).thenAnswer {
+            return@thenAnswer networkResponse
+        }
+        localSummaryRepository.refreshData(forceRefresh = true)
+
+        verify(apiService, times(1)).getLocalSummary(testCountryUrl)
+        verify(localSummaryDao, times(1)).replace(testLocalSummaryLocal)
+    }
+
+    @Test
+    fun refreshData_force_errorResponse_VerifyNotDataSaved() = runBlocking {
+        val responseError: Response<LocalSummaryRemote> = Response.error(
+            403,
+            ResponseBody.create(
+                MediaType.parse("application/json"), "Bad Request"
+            )
+        )
+        Mockito.`when`(apiService.getLocalSummary(testCountryUrl)).thenAnswer {
+            return@thenAnswer responseError
+        }
+        localSummaryRepository.refreshData(forceRefresh = true)
+
+        verify(apiService, times(1)).getLocalSummary(testCountryUrl)
+        verify(localSummaryDao, times(0)).replace(testLocalSummaryLocal)
     }
 }
