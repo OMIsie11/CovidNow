@@ -1,12 +1,14 @@
 package io.github.omisie11.coronatracker.data.repository
 
 import android.content.SharedPreferences
+import com.github.mikephil.charting.data.PieEntry
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import io.github.omisie11.coronatracker.data.local.dao.GlobalSummaryDao
 import io.github.omisie11.coronatracker.data.local.model.GlobalSummary
 import io.github.omisie11.coronatracker.data.remote.ApiService
 import io.github.omisie11.coronatracker.utils.testGlobalSummary
+import io.github.omisie11.coronatracker.utils.testGlobalSummaryPieChartData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -30,6 +32,7 @@ import org.mockito.MockitoAnnotations
 class GlobalSummaryRepositoryTest {
 
     private val testGlobalSummaryLocal = testGlobalSummary
+    private val testGlobalChartData = testGlobalSummaryPieChartData
 
     private val testDispatcher = TestCoroutineDispatcher()
 
@@ -60,17 +63,34 @@ class GlobalSummaryRepositoryTest {
     }
 
     @Test
-    fun getCountriesNamesFlowTest() = kotlinx.coroutines.runBlocking {
+    fun getGlobalSummaryFlow() = kotlinx.coroutines.runBlocking {
+        val globalSummaryFlow = flowOf(testGlobalSummaryLocal)
+
+        Mockito.`when`(globalSummaryDao.getGlobalSummaryFlow()).thenAnswer {
+            return@thenAnswer globalSummaryFlow
+        }
+        val result: GlobalSummary =
+            globalSummaryRepository.getGlobalSummaryFlow().take(1).toList()[0]
+
+        verify(globalSummaryDao, times(1)).getGlobalSummaryFlow()
+        assertEquals(result, testGlobalSummaryLocal)
+    }
+
+    @Test
+    fun getGlobalSummaryPieChartDataFlow_validData() = kotlinx.coroutines.runBlocking {
         val globalSummaryFlow = flowOf(testGlobalSummaryLocal)
 
         Mockito.`when`(globalSummaryDao.getGlobalSummaryFlow()).thenAnswer {
             return@thenAnswer globalSummaryFlow
         }
 
-        val result: GlobalSummary =
-            globalSummaryRepository.getGlobalSummaryFlow().take(1).toList()[0]
+        val expected: List<PieEntry> = testGlobalChartData
+        val result: List<PieEntry> = globalSummaryRepository.getGlobalSummaryPieChartDataFlow()
+            .take(1).toList()[0]
 
         verify(globalSummaryDao, times(1)).getGlobalSummaryFlow()
-        assertEquals(result, testGlobalSummaryLocal)
+        for (i in result.indices) {
+            assert(expected[i].value == result[i].value)
+        }
     }
 }
