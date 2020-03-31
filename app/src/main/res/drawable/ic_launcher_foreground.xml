@@ -7,32 +7,45 @@
     <clip-path
         android:pathData="M0,0h1080v1080h-1080z"/>
     <path
-        android:fillColor="#FF000000"
-        android:pathData="M330,330L330,750"
-        android:strokeLineJoin="round"
-        android:strokeWidth="30"
-        android:strokeColor="#FFFFFF"
-        android:strokeLineCap="round"/>
+        android:pathData="M707,371L1081,746L1080,1080L804,1079L758,1079L744,1079L376,711L707,371Z"
+        android:fillColor="#F7F7F7"/>
     <path
-        android:fillColor="#FF000000"
-        android:pathData="M750,750L330,750"
-        android:strokeLineJoin="round"
-        android:strokeWidth="30"
-        android:strokeColor="#FFFFFF"
-        android:strokeLineCap="round"/>
+        android:pathData="M540,540m-200,0a200,200 0,1 1,400 0a200,200 0,1 1,-400 0"
+        android:fillColor="#66BB6A"/>
     <path
-        android:pathData="M401.58,653.52C489.51,627.36 497.23,310.16 542.58,472.52"
-        android:strokeLineJoin="round"
-        android:strokeWidth="30"
-        android:fillColor="#00000000"
-        android:strokeColor="#FFFFFF"
-        android:strokeLineCap="round"/>
+        android:pathData="M540,540m-150,0a150,150 0,1 1,300 0a150,150 0,1 1,-300 0"
+        android:fillColor="#85C988"/>
     <path
-        android:pathData="M542.58,472.52Q568.88,560.93 678.42,619.79"
-        android:strokeLineJoin="round"
-        android:strokeWidth="30"
-        android:fillColor="#00000000"
-        android:strokeColor="#FFFFFF"
-        android:strokeLineCap="round"/>
+        android:pathData="M550.27,314.05L550.27,345L529.73,345L529.73,314.05C521.52,312.45 515.83,309 515.83,305C515.83,299.48 526.66,295 540,295C553.34,295 564.17,299.48 564.17,305C564.17,309 558.48,312.45 550.27,314.05Z"
+        android:fillColor="#66BB6A"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M550.27,765.95L550.27,735L529.73,735L529.73,765.95C521.52,767.54 515.83,771 515.83,775C515.83,780.52 526.66,785 540,785C553.34,785 564.17,780.52 564.17,775C564.17,771 558.48,767.54 550.27,765.95Z"
+        android:fillColor="#66BB6A"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M314.05,529.73L345,529.73L345,550.27L314.05,550.27C312.45,558.48 309,564.17 305,564.17C299.48,564.17 295,553.34 295,540C295,526.66 299.48,515.83 305,515.83C309,515.83 312.45,521.52 314.05,529.73Z"
+        android:fillColor="#66BB6A"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M765.95,529.73L735,529.73L735,550.27L765.95,550.27C767.54,558.48 771,564.17 775,564.17C780.52,564.17 785,553.34 785,540C785,526.66 780.52,515.83 775,515.83C771,515.83 767.54,521.52 765.95,529.73Z"
+        android:fillColor="#66BB6A"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M701.41,686.88L679.52,665L665,679.52L686.88,701.41C682.21,708.34 680.63,714.81 683.46,717.64C687.36,721.54 698.19,717.05 707.62,707.62C717.05,698.19 721.54,687.36 717.64,683.46C714.81,680.63 708.34,682.21 701.41,686.88Z"
+        android:fillColor="#66BB6A"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M377.64,392.16L399.52,414.04L414.04,399.52L392.16,377.64C396.83,370.7 398.41,364.24 395.58,361.41C391.68,357.51 380.86,361.99 371.42,371.42C361.99,380.86 357.51,391.68 361.41,395.58C364.24,398.41 370.7,396.83 377.64,392.16Z"
+        android:fillColor="#66BB6A"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M686.88,377.64L665,399.52L679.52,414.04L701.41,392.16C708.34,396.83 714.81,398.41 717.64,395.58C721.54,391.68 717.05,380.86 707.62,371.42C698.19,361.99 687.36,357.51 683.46,361.41C680.63,364.24 682.21,370.7 686.88,377.64Z"
+        android:fillColor="#66BB6A"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M392.16,701.41L414.04,679.52L399.52,665L377.64,686.88C370.7,682.21 364.24,680.63 361.41,683.46C357.51,687.36 361.99,698.19 371.42,707.62C380.86,717.05 391.68,721.54 395.58,717.64C398.41,714.81 396.83,708.34 392.16,701.41Z"
+        android:fillColor="#66BB6A"
+        android:fillType="evenOdd"/>
   </group>
 </vector>
