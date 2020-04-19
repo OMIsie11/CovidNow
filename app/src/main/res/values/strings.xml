@@ -54,5 +54,6 @@
     <string name="privacy">Privacy</string>
     <string name="privacy_info">All data collected by application stays on Your device and is never
         shared or send to developer.\nI respect Your privacy.\nStay safe.</string>
+    <string name="question_mark_icon">Question mark icon</string>
 
 </resources>
