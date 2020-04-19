@@ -1,12 +1,10 @@
 package io.github.omisie11.coronatracker.ui.about.used_libraries
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import io.github.omisie11.coronatracker.R
-import kotlinx.android.synthetic.main.used_libraries_recycler_item.view.*
+import io.github.omisie11.coronatracker.databinding.UsedLibrariesRecyclerItemBinding
 
 class UsedLibrariesAdapter(private val itemClickListener: OnItemClickListener) :
     RecyclerView.Adapter<UsedLibrariesAdapter.ViewHolder>() {
@@ -14,9 +12,12 @@ class UsedLibrariesAdapter(private val itemClickListener: OnItemClickListener) :
     private var librariesList: List<UsedLibrary> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.used_libraries_recycler_item, parent, false)
-        return ViewHolder(view)
+        val itemBinding = UsedLibrariesRecyclerItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ViewHolder(itemBinding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -25,17 +26,18 @@ class UsedLibrariesAdapter(private val itemClickListener: OnItemClickListener) :
 
     override fun getItemCount(): Int = librariesList.size
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val libLicenseTextView: TextView = itemView.text_lib_license
-        private val libNameTextView: TextView = itemView.text_lib_name
-        private val libDescTextView: TextView = itemView.text_lib_desc
+    inner class ViewHolder(private val itemBinding: UsedLibrariesRecyclerItemBinding) :
+        RecyclerView.ViewHolder(itemBinding.root) {
+        private val libLicenseTextView: TextView = itemBinding.textLibLicense
+        private val libNameTextView: TextView = itemBinding.textLibName
+        private val libDescTextView: TextView = itemBinding.textLibDesc
 
         fun bind(library: UsedLibrary, itemClickListener: OnItemClickListener) {
             libLicenseTextView.text = library.license
             libNameTextView.text = library.name
             libDescTextView.text = library.description
 
-            itemView.setOnClickListener {
+            itemBinding.root.setOnClickListener {
                 if (adapterPosition != -1) itemClickListener.onItemClicked(library.repositoryUrl)
             }
         }

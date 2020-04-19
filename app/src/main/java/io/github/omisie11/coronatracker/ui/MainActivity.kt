@@ -9,11 +9,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.preference.PreferenceManager
 import io.github.omisie11.coronatracker.R
+import io.github.omisie11.coronatracker.databinding.ActivityMainBinding
 import io.github.omisie11.coronatracker.util.PREFS_KEY_APP_THEME
-import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
 
     private val sharedPrefs: SharedPreferences by inject()
     private lateinit var sharedPrefsListener: SharedPreferences.OnSharedPreferenceChangeListener
@@ -21,7 +23,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_CovidTracker)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Set default values of preferences for first app launch (third argument set
         // to false ensures that this is won't set user settings to defaults with every call)
@@ -60,6 +63,6 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.findNavController()
-        NavigationUI.setupWithNavController(bottom_navigation, navController)
+        NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
     }
 }

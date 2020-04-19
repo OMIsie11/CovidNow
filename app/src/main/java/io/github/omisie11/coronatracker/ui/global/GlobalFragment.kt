@@ -14,11 +14,14 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.google.android.material.snackbar.Snackbar
 import io.github.omisie11.coronatracker.R
+import io.github.omisie11.coronatracker.databinding.FragmentGlobalBinding
 import io.github.omisie11.coronatracker.vo.FetchResult
-import kotlinx.android.synthetic.main.fragment_global.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GlobalFragment : Fragment() {
+
+    private var _binding: FragmentGlobalBinding? = null
+    private val binding get() = _binding!!
 
     private val globalViewModel by viewModel<GlobalViewModel>()
 
@@ -27,8 +30,8 @@ class GlobalFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_global, container, false)
+        _binding = FragmentGlobalBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,9 +41,11 @@ class GlobalFragment : Fragment() {
 
         globalViewModel.getGlobalSummary().observe(viewLifecycleOwner, Observer { summary ->
             if (summary != null) {
-                text_confirmed.text = summary.confirmed?.toString() ?: getString(R.string.no_data)
-                text_recovered.text = summary.recovered?.toString() ?: getString(R.string.no_data)
-                text_deaths.text = summary.deaths?.toString() ?: getString(R.string.no_data)
+                binding.textConfirmed.text =
+                    summary.confirmed?.toString() ?: getString(R.string.no_data)
+                binding.textRecovered.text =
+                    summary.recovered?.toString() ?: getString(R.string.no_data)
+                binding.textDeaths.text = summary.deaths?.toString() ?: getString(R.string.no_data)
             }
         })
 
@@ -49,7 +54,7 @@ class GlobalFragment : Fragment() {
         })
 
         globalViewModel.getDataFetchingStatus().observe(viewLifecycleOwner, Observer {
-            swipe_refresh.isRefreshing = it
+            binding.swipeRefresh.isRefreshing = it
         })
 
         globalViewModel.snackbar.observe(viewLifecycleOwner, Observer { fetchResult ->
@@ -65,13 +70,13 @@ class GlobalFragment : Fragment() {
             }
         })
 
-        swipe_refresh.setOnRefreshListener {
+        binding.swipeRefresh.setOnRefreshListener {
             globalViewModel.refreshGlobalSummary(forceRefresh = true)
         }
 
-        image_confirmed.setOnClickListener { pie_chart_global.highlightValue(0f, 0) }
-        image_recovered.setOnClickListener { pie_chart_global.highlightValue(1f, 0) }
-        image_deaths.setOnClickListener { pie_chart_global.highlightValue(2f, 0) }
+        binding.imageConfirmed.setOnClickListener { binding.pieChartGlobal.highlightValue(0f, 0) }
+        binding.imageRecovered.setOnClickListener { binding.pieChartGlobal.highlightValue(1f, 0) }
+        binding.imageDeaths.setOnClickListener { binding.pieChartGlobal.highlightValue(2f, 0) }
     }
 
     override fun onResume() {
@@ -79,12 +84,17 @@ class GlobalFragment : Fragment() {
         globalViewModel.refreshGlobalSummary(forceRefresh = false)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun setDataToPieChart(data: List<PieEntry>) {
         val dataSet = PieDataSet(data, "")
         setupDataSetStyle(dataSet)
         val pieData = PieData(dataSet)
-        pie_chart_global.data = pieData
-        pie_chart_global.invalidate()
+        binding.pieChartGlobal.data = pieData
+        binding.pieChartGlobal.invalidate()
     }
 
     private fun setupDataSetStyle(dataSet: PieDataSet) = dataSet.apply {
@@ -92,7 +102,7 @@ class GlobalFragment : Fragment() {
         setDrawValues(false)
     }
 
-    private fun styleGlobalPieChart() = pie_chart_global.apply {
+    private fun styleGlobalPieChart() = binding.pieChartGlobal.apply {
         description.isEnabled = false
         legend.isEnabled = false
         isDrawHoleEnabled = true
@@ -105,7 +115,7 @@ class GlobalFragment : Fragment() {
     }
 
     private fun showErrorSnackbar(text: String) {
-        val snackbar = Snackbar.make(swipe_refresh, text, Snackbar.LENGTH_LONG)
+        val snackbar = Snackbar.make(binding.swipeRefresh, text, Snackbar.LENGTH_LONG)
         val layoutParams = snackbar.view.layoutParams as CoordinatorLayout.LayoutParams
         layoutParams.apply {
             anchorId = R.id.bottom_navigation

@@ -15,13 +15,16 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.google.android.material.snackbar.Snackbar
 import io.github.omisie11.coronatracker.R
+import io.github.omisie11.coronatracker.databinding.FragmentLocalBinding
 import io.github.omisie11.coronatracker.util.PREFS_KEY_CHOSEN_LOCATION
 import io.github.omisie11.coronatracker.vo.FetchResult
-import kotlinx.android.synthetic.main.fragment_local.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class LocalFragment : Fragment() {
+
+    private var _binding: FragmentLocalBinding? = null
+    private val binding get() = _binding!!
 
     private val localViewModel by sharedViewModel<LocalViewModel>()
     private val sharedPrefs: SharedPreferences by inject()
@@ -31,21 +34,23 @@ class LocalFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_local, container, false)
+        _binding = FragmentLocalBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         styleGlobalPieChart()
-        text_country_title.text = getChosenLocation()
+        binding.textCountryTitle.text = getChosenLocation()
 
         localViewModel.getSummary().observe(viewLifecycleOwner, Observer { summary ->
             if (summary != null) {
-                text_confirmed.text = summary.confirmed?.toString() ?: getString(R.string.no_data)
-                text_recovered.text = summary.recovered?.toString() ?: getString(R.string.no_data)
-                text_deaths.text = summary.deaths?.toString() ?: getString(R.string.no_data)
+                binding.textConfirmed.text =
+                    summary.confirmed?.toString() ?: getString(R.string.no_data)
+                binding.textRecovered.text =
+                    summary.recovered?.toString() ?: getString(R.string.no_data)
+                binding.textDeaths.text = summary.deaths?.toString() ?: getString(R.string.no_data)
             }
         })
 
@@ -54,7 +59,7 @@ class LocalFragment : Fragment() {
         })
 
         localViewModel.getDataFetchingStatus().observe(viewLifecycleOwner, Observer {
-            swipe_refresh.isRefreshing = it
+            binding.swipeRefresh.isRefreshing = it
         })
 
         localViewModel.snackbar.observe(viewLifecycleOwner, Observer { fetchResult ->
@@ -70,11 +75,11 @@ class LocalFragment : Fragment() {
             }
         })
 
-        swipe_refresh.setOnRefreshListener {
+        binding.swipeRefresh.setOnRefreshListener {
             localViewModel.refreshLocalSummary(forceRefresh = true)
         }
 
-        image_edit_location.setOnClickListener {
+        binding.imageEditLocation.setOnClickListener {
             val bottomSheetFragment = ChooseLocationBottomDialogFragment()
             bottomSheetFragment.show(
                 requireActivity().supportFragmentManager,
@@ -82,9 +87,9 @@ class LocalFragment : Fragment() {
             )
         }
 
-        image_confirmed.setOnClickListener { pie_chart_local.highlightValue(0f, 0) }
-        image_recovered.setOnClickListener { pie_chart_local.highlightValue(1f, 0) }
-        image_deaths.setOnClickListener { pie_chart_local.highlightValue(2f, 0) }
+        binding.imageConfirmed.setOnClickListener { binding.pieChartLocal.highlightValue(0f, 0) }
+        binding.imageRecovered.setOnClickListener { binding.pieChartLocal.highlightValue(1f, 0) }
+        binding.imageDeaths.setOnClickListener { binding.pieChartLocal.highlightValue(2f, 0) }
     }
 
     override fun onResume() {
@@ -92,12 +97,17 @@ class LocalFragment : Fragment() {
         localViewModel.refreshLocalSummary(forceRefresh = false)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun setDataToPieChart(data: List<PieEntry>) {
         val dataSet = PieDataSet(data, "")
         setupDataSetStyle(dataSet)
         val pieData = PieData(dataSet)
-        pie_chart_local.data = pieData
-        pie_chart_local.invalidate()
+        binding.pieChartLocal.data = pieData
+        binding.pieChartLocal.invalidate()
     }
 
     private fun setupDataSetStyle(dataSet: PieDataSet) = dataSet.apply {
@@ -105,7 +115,7 @@ class LocalFragment : Fragment() {
         setDrawValues(false)
     }
 
-    private fun styleGlobalPieChart() = pie_chart_local.apply {
+    private fun styleGlobalPieChart() = binding.pieChartLocal.apply {
         description.isEnabled = false
         legend.isEnabled = false
         isDrawHoleEnabled = true
@@ -118,7 +128,7 @@ class LocalFragment : Fragment() {
     }
 
     private fun showErrorSnackbar(text: String) {
-        val snackbar = Snackbar.make(swipe_refresh, text, Snackbar.LENGTH_LONG)
+        val snackbar = Snackbar.make(binding.swipeRefresh, text, Snackbar.LENGTH_LONG)
         val layoutParams = snackbar.view.layoutParams as CoordinatorLayout.LayoutParams
         layoutParams.apply {
             anchorId = R.id.bottom_navigation

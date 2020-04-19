@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.github.omisie11.coronatracker.R
-import kotlinx.android.synthetic.main.fragment_used_libraries.*
+import io.github.omisie11.coronatracker.databinding.FragmentUsedLibrariesBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -21,6 +21,9 @@ import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 
 class UsedLibrariesFragment : Fragment(), UsedLibrariesAdapter.OnItemClickListener {
+
+    private var _binding: FragmentUsedLibrariesBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var viewAdapter: UsedLibrariesAdapter
     private val moshi: Moshi by inject()
@@ -32,15 +35,15 @@ class UsedLibrariesFragment : Fragment(), UsedLibrariesAdapter.OnItemClickListen
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_used_libraries, container, false)
+        _binding = FragmentUsedLibrariesBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewAdapter = UsedLibrariesAdapter(this)
-        recyclerView_libs.apply {
+        binding.recyclerViewLibs.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = viewAdapter
@@ -59,7 +62,8 @@ class UsedLibrariesFragment : Fragment(), UsedLibrariesAdapter.OnItemClickListen
 
     override fun onDestroyView() {
         super.onDestroyView()
-        recyclerView_libs.adapter = null
+        binding.recyclerViewLibs.adapter = null
+        _binding = null
 
         usedLibsJob.cancel()
     }
