@@ -22,6 +22,16 @@
 
         <item name="android:statusBarColor">@color/status_bar_bg</item>
 
+        <item name="shapeAppearanceSmallComponent">
+            @style/ShapeAppearance.CovidTracker.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">
+            @style/ShapeAppearance.CovidTracker.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">
+            @style/ShapeAppearance.CovidTracker.LargeComponent
+        </item>
+
         <item name="alertDialogTheme">@style/MaterialAlertDialog</item>
     </style>
 
@@ -29,11 +39,29 @@
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
+    <!-- Shape -->
+
+    <style name="ShapeAppearance.CovidTracker.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="ShapeAppearance.CovidTracker.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="ShapeAppearance.CovidTracker.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
     <!-- Styles needed to theme Settings ListPreference button on alert dialog -->
     <style name="MaterialAlertDialog" parent="Theme.MaterialComponents.Dialog.Alert">
         <item name="colorAccent">@color/secondary</item>
         <item name="buttonBarButtonStyle">@style/MaterialButtonBarButtonStyle</item>
     </style>
+
     <style name="MaterialButtonBarButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">@color/secondary</item>
     </style>
