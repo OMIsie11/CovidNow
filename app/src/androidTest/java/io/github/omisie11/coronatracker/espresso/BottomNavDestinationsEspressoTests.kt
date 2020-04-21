@@ -1,4 +1,4 @@
-package io.github.omisie11.coronatracker
+package io.github.omisie11.coronatracker.espresso
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
@@ -12,6 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
+import io.github.omisie11.coronatracker.R
 import io.github.omisie11.coronatracker.ui.MainActivity
 import org.junit.Rule
 import org.junit.Test
