@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Attributes for SingleStatView -->
+    <declare-styleable name="SingleStatView">
+        <attr name="icon" format="reference"/>
+        <attr name="statValue" format="string" />
+        <attr name="title" format="string" />
+    </declare-styleable>
+</resources>
