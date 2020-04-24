@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import io.github.omisie11.coronatracker.R
 import io.github.omisie11.coronatracker.databinding.FragmentGlobalBinding
 import io.github.omisie11.coronatracker.vo.FetchResult
+import kotlinx.android.synthetic.main.compound_single_stat.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GlobalFragment : Fragment() {
@@ -41,11 +42,12 @@ class GlobalFragment : Fragment() {
 
         globalViewModel.getGlobalSummary().observe(viewLifecycleOwner, Observer { summary ->
             if (summary != null) {
-                binding.textConfirmed.text =
+                binding.statConfirmed.stat_value.text =
                     summary.confirmed?.toString() ?: getString(R.string.no_data)
-                binding.textRecovered.text =
+                binding.statRecovered.stat_value.text =
                     summary.recovered?.toString() ?: getString(R.string.no_data)
-                binding.textDeaths.text = summary.deaths?.toString() ?: getString(R.string.no_data)
+                binding.statDeaths.stat_value.text =
+                    summary.deaths?.toString() ?: getString(R.string.no_data)
             }
         })
 
@@ -74,9 +76,9 @@ class GlobalFragment : Fragment() {
             globalViewModel.refreshGlobalSummary(forceRefresh = true)
         }
 
-        binding.imageConfirmed.setOnClickListener { binding.pieChartGlobal.highlightValue(0f, 0) }
-        binding.imageRecovered.setOnClickListener { binding.pieChartGlobal.highlightValue(1f, 0) }
-        binding.imageDeaths.setOnClickListener { binding.pieChartGlobal.highlightValue(2f, 0) }
+        binding.statConfirmed.setOnClickListener { binding.pieChartGlobal.highlightValue(0f, 0) }
+        binding.statRecovered.setOnClickListener { binding.pieChartGlobal.highlightValue(1f, 0) }
+        binding.statDeaths.setOnClickListener { binding.pieChartGlobal.highlightValue(2f, 0) }
     }
 
     override fun onResume() {

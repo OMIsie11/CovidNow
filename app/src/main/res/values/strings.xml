@@ -56,5 +56,6 @@
         shared or send to developer.\nI respect Your privacy.\nStay safe.</string>
     <string name="question_mark_icon">Question mark icon</string>
     <string name="title">Title</string>
+    <string name="value">Value</string>
 
 </resources>

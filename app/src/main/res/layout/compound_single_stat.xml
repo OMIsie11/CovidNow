@@ -9,7 +9,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/stat_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,9 +17,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:tint="@color/pie_chart_green"
-        tools:ignore="ContentDescription"
-        android:src="@drawable/ic_help_outline_24dp" />
+        android:src="@drawable/ic_help_outline_24dp"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/stat_value"

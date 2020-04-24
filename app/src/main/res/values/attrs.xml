@@ -3,6 +3,7 @@
     <!-- Attributes for SingleStatView -->
     <declare-styleable name="SingleStatView">
         <attr name="icon" format="reference"/>
+        <attr name="iconColor" format="reference"/>
         <attr name="statValue" format="string" />
         <attr name="title" format="string" />
     </declare-styleable>

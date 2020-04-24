@@ -18,6 +18,7 @@ import io.github.omisie11.coronatracker.R
 import io.github.omisie11.coronatracker.databinding.FragmentLocalBinding
 import io.github.omisie11.coronatracker.util.PREFS_KEY_CHOSEN_LOCATION
 import io.github.omisie11.coronatracker.vo.FetchResult
+import kotlinx.android.synthetic.main.compound_single_stat.view.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -46,11 +47,12 @@ class LocalFragment : Fragment() {
 
         localViewModel.getSummary().observe(viewLifecycleOwner, Observer { summary ->
             if (summary != null) {
-                binding.textConfirmed.text =
+                binding.statConfirmed.stat_value.text =
                     summary.confirmed?.toString() ?: getString(R.string.no_data)
-                binding.textRecovered.text =
+                binding.statRecovered.stat_value.text =
                     summary.recovered?.toString() ?: getString(R.string.no_data)
-                binding.textDeaths.text = summary.deaths?.toString() ?: getString(R.string.no_data)
+                binding.statDeaths.stat_value.text =
+                    summary.deaths?.toString() ?: getString(R.string.no_data)
             }
         })
 
@@ -87,9 +89,9 @@ class LocalFragment : Fragment() {
             )
         }
 
-        binding.imageConfirmed.setOnClickListener { binding.pieChartLocal.highlightValue(0f, 0) }
-        binding.imageRecovered.setOnClickListener { binding.pieChartLocal.highlightValue(1f, 0) }
-        binding.imageDeaths.setOnClickListener { binding.pieChartLocal.highlightValue(2f, 0) }
+        binding.statConfirmed.setOnClickListener { binding.pieChartLocal.highlightValue(0f, 0) }
+        binding.statRecovered.setOnClickListener { binding.pieChartLocal.highlightValue(1f, 0) }
+        binding.statDeaths.setOnClickListener { binding.pieChartLocal.highlightValue(2f, 0) }
     }
 
     override fun onResume() {

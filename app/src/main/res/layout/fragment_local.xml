@@ -34,9 +34,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
+                android:contentDescription="@string/edit_location_icon"
                 android:src="@drawable/ic_create_24dp"
                 android:tint="@color/secondary"
-                android:contentDescription="@string/edit_location_icon"
                 app:layout_constraintBottom_toBottomOf="@+id/text_country_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -54,115 +54,58 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_country_title" />
 
-            <ImageView
-                android:id="@+id/image_recovered"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_favorite_24dp"
-                android:tint="@color/pie_chart_green"
-                app:layout_constraintBottom_toBottomOf="@+id/image_confirmed"
-                app:layout_constraintEnd_toEndOf="@+id/text_recovered"
-                app:layout_constraintStart_toStartOf="@+id/text_recovered"
-                app:layout_constraintTop_toTopOf="@+id/image_confirmed"
-                android:contentDescription="@string/recovered_icon" />
-
-            <ImageView
-                android:id="@+id/image_confirmed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/ic_caution_24dp"
-                android:tint="@color/pie_chart_yellow"
-                app:layout_constraintEnd_toEndOf="@+id/textView2"
-                app:layout_constraintStart_toStartOf="@+id/textView2"
-                app:layout_constraintTop_toBottomOf="@+id/pie_chart_local"
-                android:contentDescription="@string/confirmed_icon" />
-
-            <ImageView
-                android:id="@+id/image_deaths"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_emoticon_death_24dp"
-                android:tint="@color/pie_chart_red"
-                app:layout_constraintBottom_toBottomOf="@+id/image_confirmed"
-                app:layout_constraintEnd_toEndOf="@+id/text_deaths"
-                app:layout_constraintStart_toStartOf="@+id/text_deaths"
-                app:layout_constraintTop_toTopOf="@+id/image_confirmed"
-                android:contentDescription="@string/deaths_icon" />
-
-            <TextView
-                android:id="@+id/text_confirmed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/number_blank"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                app:layout_constraintEnd_toStartOf="@+id/text_deaths"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/text_recovered"
-                app:layout_constraintTop_toBottomOf="@+id/image_confirmed"
-                tools:text="32133" />
-
-            <TextView
-                android:id="@+id/text_recovered"
+            <io.github.omisie11.coronatracker.util.SingleStatView
+                android:id="@+id/stat_recovered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/number_blank"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                app:layout_constraintBottom_toBottomOf="@+id/text_confirmed"
-                app:layout_constraintEnd_toStartOf="@+id/text_confirmed"
+                app:icon="@drawable/ic_favorite_24dp"
+                app:iconColor="@color/pie_chart_green"
+                app:layout_constraintBottom_toBottomOf="@+id/stat_confirmed"
+                app:layout_constraintEnd_toStartOf="@+id/stat_confirmed"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/text_confirmed"
+                app:layout_constraintTop_toTopOf="@+id/stat_confirmed"
+                app:statValue="@string/number_blank"
+                app:title="@string/recovered"
                 tools:text="29132" />
 
-            <TextView
-                android:id="@+id/text_deaths"
+            <io.github.omisie11.coronatracker.util.SingleStatView
+                android:id="@+id/stat_confirmed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="24dp"
+                app:icon="@drawable/ic_caution_24dp"
+                app:iconColor="@color/pie_chart_yellow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/stat_deaths"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/stat_recovered"
+                app:layout_constraintTop_toBottomOf="@+id/pie_chart_local"
+                app:statValue="@string/number_blank"
+                app:title="@string/confirmed"
+                tools:text="32133" />
+
+            <io.github.omisie11.coronatracker.util.SingleStatView
+                android:id="@+id/stat_deaths"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/number_blank"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                app:layout_constraintBottom_toBottomOf="@+id/text_confirmed"
+                app:icon="@drawable/ic_emoticon_death_24dp"
+                app:iconColor="@color/pie_chart_red"
+                app:layout_constraintBottom_toBottomOf="@+id/stat_confirmed"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/text_confirmed"
-                tools:text="1123" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp"
-                android:text="@string/confirmed"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/text_confirmed"
-                app:layout_constraintStart_toStartOf="@+id/text_confirmed"
-                app:layout_constraintTop_toBottomOf="@+id/text_confirmed" />
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/recovered"
-                app:layout_constraintBottom_toBottomOf="@+id/textView2"
-                app:layout_constraintEnd_toEndOf="@+id/text_recovered"
-                app:layout_constraintStart_toStartOf="@+id/text_recovered"
-                app:layout_constraintTop_toTopOf="@+id/textView2" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/deaths"
-                app:layout_constraintBottom_toBottomOf="@+id/textView2"
-                app:layout_constraintEnd_toEndOf="@+id/text_deaths"
-                app:layout_constraintStart_toStartOf="@+id/text_deaths"
-                app:layout_constraintTop_toTopOf="@+id/textView2" />
+                app:layout_constraintStart_toEndOf="@+id/stat_confirmed"
+                app:layout_constraintTop_toTopOf="@+id/stat_confirmed"
+                app:statValue="@string/number_blank"
+                app:title="@string/deaths"
+                tools:text="2132" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
