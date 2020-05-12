@@ -20,6 +20,7 @@ Simple application for tracking Covid-19 info, stay safe 😷
 * Room database
 * LiveData, ViewModel
 * MVVM architecture
+* Kotlin DSL scripts for Gradle
 
 ## License
 ```
