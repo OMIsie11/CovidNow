@@ -31,7 +31,8 @@
         android:paddingEnd="8dp"
         android:singleLine="true"
         android:text="@string/number_blank"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textStyle="bold"
         tools:text="2913415" />
 
     <TextView
