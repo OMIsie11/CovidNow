@@ -2,8 +2,8 @@ object App {
     const val compileSdk = 29
     const val minSdk = 21
     const val targetSdk = 28
-    const val versionCode = 3
-    const val versionName = "1.1.1"
+    const val versionCode = 4
+    const val versionName = "1.1.2"
 }
 
 object Versions {
