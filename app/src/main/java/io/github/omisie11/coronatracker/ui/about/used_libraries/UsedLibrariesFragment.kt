@@ -7,14 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.github.omisie11.coronatracker.R
 import io.github.omisie11.coronatracker.databinding.FragmentUsedLibrariesBinding
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,8 +26,6 @@ class UsedLibrariesFragment : Fragment(), UsedLibrariesAdapter.OnItemClickListen
 
     private lateinit var viewAdapter: UsedLibrariesAdapter
     private val moshi: Moshi by inject()
-    private val usedLibsJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + usedLibsJob)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +46,7 @@ class UsedLibrariesFragment : Fragment(), UsedLibrariesAdapter.OnItemClickListen
             adapter = viewAdapter
         }
 
-        uiScope.launch {
+        lifecycleScope.launch {
             val usedLibsList = async(Dispatchers.Default) {
                 getUsedLibraries()
             }
@@ -64,8 +61,6 @@ class UsedLibrariesFragment : Fragment(), UsedLibrariesAdapter.OnItemClickListen
         super.onDestroyView()
         binding.recyclerViewLibs.adapter = null
         _binding = null
-
-        usedLibsJob.cancel()
     }
 
     override fun onItemClicked(usedLibraryRepoUrl: String) {
@@ -76,7 +71,10 @@ class UsedLibrariesFragment : Fragment(), UsedLibrariesAdapter.OnItemClickListen
         val objectString: String =
             requireActivity().resources.openRawResource(R.raw.used_libraries).bufferedReader()
                 .use { it.readText() }
-        val libsListType = Types.newParameterizedType(List::class.java, UsedLibrary::class.java)
+        val libsListType = Types.newParameterizedType(
+            List::class.java,
+            UsedLibrary::class.java
+        )
         val jsonAdapter = moshi.adapter<List<UsedLibrary>>(libsListType)
         return jsonAdapter.fromJson(objectString) ?: emptyList()
     }
