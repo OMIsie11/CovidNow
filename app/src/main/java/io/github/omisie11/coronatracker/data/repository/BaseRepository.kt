@@ -1,30 +1,35 @@
 package io.github.omisie11.coronatracker.data.repository
 
 import android.content.SharedPreferences
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import io.github.omisie11.coronatracker.util.PREFS_KEY_REFRESH_INTERVAL
 import io.github.omisie11.coronatracker.vo.FetchResult
 import java.io.IOException
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 import org.threeten.bp.Instant
 import retrofit2.HttpException
 import retrofit2.Response
 import timber.log.Timber
 
+@ExperimentalCoroutinesApi
 abstract class BaseRepository<RemoteModel, LocalModel>(
     private val sharedPrefs: SharedPreferences
 ) {
 
     protected abstract val lastRefreshKey: String
 
-    private val isDataFetching = MutableLiveData(false)
-    private val fetchResult = MutableLiveData(FetchResult.OK)
+    // private val isDataFetching = MutableLiveData(false)
+    private val isDataFetching = MutableStateFlow(value = false)
 
-    fun getFetchingStatus(): LiveData<Boolean> = isDataFetching
+    // private val fetchResult = MutableLiveData(FetchResult.OK)
+    private val fetchResult = MutableStateFlow(FetchResult.OK)
 
-    fun getFetchResult(): MutableLiveData<FetchResult> = fetchResult
+    fun getFetchingStatus(): StateFlow<Boolean> = isDataFetching
+
+    fun getFetchResult(): MutableStateFlow<FetchResult> = fetchResult
 
     suspend fun refreshData(forceRefresh: Boolean = false) {
         if (forceRefresh || isDataRefreshNeeded()) {
@@ -34,7 +39,8 @@ abstract class BaseRepository<RemoteModel, LocalModel>(
     }
 
     private suspend fun fetchDataFromApi() = withContext(NonCancellable) {
-        isDataFetching.postValue(true)
+        // isDataFetching.postValue(true)
+        isDataFetching.value = true
         try {
             val response = makeApiCall()
             when {
@@ -44,15 +50,15 @@ abstract class BaseRepository<RemoteModel, LocalModel>(
                     }
                     saveRefreshTime()
                     Timber.d("Fetch success")
-                    fetchResult.postValue(FetchResult.OK)
+                    fetchResult.value = FetchResult.OK
                 }
                 response.errorBody() != null -> {
                     Timber.d("Server error")
-                    fetchResult.postValue(FetchResult.SERVER_ERROR)
+                    fetchResult.value = FetchResult.SERVER_ERROR
                 }
                 else -> {
                     Timber.d("Response with empty body")
-                    fetchResult.postValue(FetchResult.UNEXPECTED_ERROR)
+                    fetchResult.value = FetchResult.UNEXPECTED_ERROR
                 }
             }
         } catch (e: Exception) {
@@ -60,19 +66,20 @@ abstract class BaseRepository<RemoteModel, LocalModel>(
             when (e) {
                 is HttpException -> {
                     Timber.d("Http exception")
-                    fetchResult.postValue(FetchResult.NETWORK_ERROR)
+                    fetchResult.value = FetchResult.NETWORK_ERROR
                 }
                 is IOException -> {
                     Timber.d("IO exception")
-                    fetchResult.postValue(FetchResult.NETWORK_ERROR)
+                    fetchResult.value = FetchResult.NETWORK_ERROR
                 }
                 else -> {
                     Timber.d("Other exception")
-                    fetchResult.postValue(FetchResult.UNEXPECTED_ERROR)
+                    fetchResult.value = FetchResult.UNEXPECTED_ERROR
                 }
             }
         }
-        isDataFetching.postValue(false)
+        // isDataFetching.postValue(false)
+        isDataFetching.value = false
     }
 
     protected abstract suspend fun makeApiCall(): Response<RemoteModel>

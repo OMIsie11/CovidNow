@@ -13,6 +13,7 @@ import io.github.omisie11.coronatracker.utils.testCountry5
 import io.github.omisie11.coronatracker.utils.testCountry6
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -71,6 +72,9 @@ class CountriesViewModelTest {
         Mockito.`when`(repository.getCountriesNamesFlow()).thenAnswer {
             return@thenAnswer countriesFlow
         }
+        Mockito.`when`(repository.getFetchingStatus()).thenAnswer {
+            return@thenAnswer MutableStateFlow(false)
+        }
         countriesViewModel = CountriesViewModel(repository)
         val result: List<String> = getValue(countriesViewModel.getCountries())
 
@@ -82,6 +86,9 @@ class CountriesViewModelTest {
         val countriesFlow = flowOf(testCountriesList)
         Mockito.`when`(repository.getCountriesNamesFlow()).thenAnswer {
             return@thenAnswer countriesFlow
+        }
+        Mockito.`when`(repository.getFetchingStatus()).thenAnswer {
+            return@thenAnswer MutableStateFlow(false)
         }
         countriesViewModel = CountriesViewModel(repository)
         countriesViewModel.refreshCountriesData(forceRefresh = true)

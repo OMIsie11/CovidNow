@@ -3,21 +3,25 @@ package io.github.omisie11.coronatracker.ui.local
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.PieEntry
 import io.github.omisie11.coronatracker.data.local.model.LocalSummary
 import io.github.omisie11.coronatracker.data.repository.LocalSummaryRepository
 import io.github.omisie11.coronatracker.vo.FetchResult
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 class LocalViewModel(private val repository: LocalSummaryRepository) : ViewModel() {
 
     private val localSummary = MutableLiveData<LocalSummary>()
     private val localPieChartData = MutableLiveData<List<PieEntry>>()
-    private val isDataFetching: LiveData<Boolean> = repository.getFetchingStatus()
-    private val _snackBar: MutableLiveData<FetchResult> = repository.getFetchResult()
+    private val isDataFetching: LiveData<Boolean> = repository.getFetchingStatus().asLiveData()
+    private val _snackBar: MutableStateFlow<FetchResult> = repository.getFetchResult()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -43,7 +47,7 @@ class LocalViewModel(private val repository: LocalSummaryRepository) : ViewModel
      * Request a snackbar to display a string.
      */
     val snackbar: LiveData<FetchResult>
-        get() = _snackBar
+        get() = _snackBar.asLiveData()
 
     /**
      * Called immediately after the UI shows the snackbar.

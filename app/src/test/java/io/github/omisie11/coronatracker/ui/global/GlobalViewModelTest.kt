@@ -11,6 +11,7 @@ import io.github.omisie11.coronatracker.utils.testGlobalSummary
 import io.github.omisie11.coronatracker.utils.testGlobalSummaryPieChartData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -67,6 +68,9 @@ class GlobalViewModelTest {
         Mockito.`when`(repository.getGlobalSummaryPieChartDataFlow()).thenAnswer {
             return@thenAnswer globalChartDataFlow
         }
+        Mockito.`when`(repository.getFetchingStatus()).thenAnswer {
+            return@thenAnswer MutableStateFlow(false)
+        }
         globalViewModel = GlobalViewModel(repository)
         val result: GlobalSummary = getValue(globalViewModel.getGlobalSummary())
 
@@ -83,6 +87,9 @@ class GlobalViewModelTest {
         Mockito.`when`(repository.getGlobalSummaryPieChartDataFlow()).thenAnswer {
             return@thenAnswer globalChartDataFlow
         }
+        Mockito.`when`(repository.getFetchingStatus()).thenAnswer {
+            return@thenAnswer MutableStateFlow(false)
+        }
         globalViewModel = GlobalViewModel(repository)
         val result: List<PieEntry> = getValue(globalViewModel.getGlobalPieChartData())
 
@@ -98,6 +105,9 @@ class GlobalViewModelTest {
         val globalChartDataFlow = flowOf(testGlobalChartData)
         Mockito.`when`(repository.getGlobalSummaryPieChartDataFlow()).thenAnswer {
             return@thenAnswer globalChartDataFlow
+        }
+        Mockito.`when`(repository.getFetchingStatus()).thenAnswer {
+            return@thenAnswer MutableStateFlow(true)
         }
         globalViewModel = GlobalViewModel(repository)
         globalViewModel.refreshGlobalSummary(forceRefresh = true)

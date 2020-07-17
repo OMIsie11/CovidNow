@@ -11,6 +11,7 @@ import io.github.omisie11.coronatracker.utils.testLocalSummary
 import io.github.omisie11.coronatracker.utils.testLocalSummaryPieChartData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -67,6 +68,9 @@ class LocalViewModelTest {
         Mockito.`when`(repository.getLocalSummaryPieChartDataFlow()).thenAnswer {
             return@thenAnswer localChartDataFlow
         }
+        Mockito.`when`(repository.getFetchingStatus()).thenAnswer {
+            return@thenAnswer MutableStateFlow(false)
+        }
         localViewModel = LocalViewModel(repository)
         val result: LocalSummary = getValue(localViewModel.getSummary())
 
@@ -83,6 +87,9 @@ class LocalViewModelTest {
         Mockito.`when`(repository.getLocalSummaryPieChartDataFlow()).thenAnswer {
             return@thenAnswer localChartDataFlow
         }
+        Mockito.`when`(repository.getFetchingStatus()).thenAnswer {
+            return@thenAnswer MutableStateFlow(false)
+        }
         localViewModel = LocalViewModel(repository)
         val result: List<PieEntry> = getValue(localViewModel.getLocalPieChartData())
 
@@ -98,6 +105,9 @@ class LocalViewModelTest {
         val localChartDataFlow = flowOf(testLocalChartData)
         Mockito.`when`(repository.getLocalSummaryPieChartDataFlow()).thenAnswer {
             return@thenAnswer localChartDataFlow
+        }
+        Mockito.`when`(repository.getFetchingStatus()).thenAnswer {
+            return@thenAnswer MutableStateFlow(true)
         }
         localViewModel = LocalViewModel(repository)
         localViewModel.refreshLocalSummary(forceRefresh = true)
