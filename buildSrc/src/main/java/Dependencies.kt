@@ -7,7 +7,7 @@ object App {
 }
 
 object Versions {
-    const val GRADLE = "3.6.3"
+    const val GRADLE = "4.0.1"
     const val KOTLIN = "1.3.72"
     const val KTLINT_GRADLE = "9.1.1"
     const val NAV_SAFE_ARGS = "2.2.1"
@@ -15,7 +15,7 @@ object Versions {
     // Libs
     const val APPCOMPAT = "1.1.0"
     const val CORE_KTX = "1.2.0"
-    const val COROUTINES_ANDROID = "1.3.5"
+    const val COROUTINES_ANDROID = "1.3.8"
     const val CONSTRAINT_LAYOUT = "1.1.3"
     const val MATERIAL = "1.2.0-alpha05"
     const val SWIPE_REFRESH_LAYOUT = "1.0.0"
