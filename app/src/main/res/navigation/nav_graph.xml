@@ -14,7 +14,11 @@
         android:id="@+id/local_dest"
         android:name="io.github.omisie11.coronatracker.ui.local.LocalFragment"
         android:label="Local Info"
-        tools:layout="@layout/fragment_local" />
+        tools:layout="@layout/fragment_local">
+        <action
+            android:id="@+id/action_local_dest_to_settings_dest"
+            app:destination="@id/settings_dest" />
+    </fragment>
     <fragment
         android:id="@+id/settings_dest"
         android:name="io.github.omisie11.coronatracker.ui.settings.SettingsFragment"

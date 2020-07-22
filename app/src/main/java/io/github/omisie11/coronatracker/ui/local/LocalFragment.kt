@@ -10,6 +10,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -82,11 +83,7 @@ class LocalFragment : Fragment() {
         }
 
         binding.imageEditLocation.setOnClickListener {
-            val bottomSheetFragment = ChooseLocationBottomDialogFragment()
-            bottomSheetFragment.show(
-                requireActivity().supportFragmentManager,
-                bottomSheetFragment.tag
-            )
+            findNavController().navigate(R.id.action_local_dest_to_settings_dest)
         }
 
         binding.statConfirmed.setOnClickListener { binding.pieChartLocal.highlightValue(0f, 0) }
