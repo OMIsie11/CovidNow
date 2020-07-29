@@ -20,9 +20,11 @@ import io.github.omisie11.coronatracker.databinding.FragmentLocalBinding
 import io.github.omisie11.coronatracker.util.PREFS_KEY_CHOSEN_LOCATION
 import io.github.omisie11.coronatracker.vo.FetchResult
 import kotlinx.android.synthetic.main.compound_single_stat.view.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
+@ExperimentalCoroutinesApi
 class LocalFragment : Fragment() {
 
     private var _binding: FragmentLocalBinding? = null

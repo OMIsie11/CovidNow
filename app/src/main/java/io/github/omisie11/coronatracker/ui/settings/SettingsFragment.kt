@@ -9,10 +9,12 @@ import androidx.preference.PreferenceFragmentCompat
 import io.github.omisie11.coronatracker.R
 import io.github.omisie11.coronatracker.ui.local.LocalViewModel
 import io.github.omisie11.coronatracker.util.PREFS_KEY_CHOSEN_LOCATION
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@ExperimentalCoroutinesApi
 class SettingsFragment : PreferenceFragmentCompat() {
 
     private val sharedPrefs: SharedPreferences by inject()

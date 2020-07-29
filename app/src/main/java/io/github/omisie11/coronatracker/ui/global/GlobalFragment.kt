@@ -17,8 +17,10 @@ import io.github.omisie11.coronatracker.R
 import io.github.omisie11.coronatracker.databinding.FragmentGlobalBinding
 import io.github.omisie11.coronatracker.vo.FetchResult
 import kotlinx.android.synthetic.main.compound_single_stat.view.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@ExperimentalCoroutinesApi
 class GlobalFragment : Fragment() {
 
     private var _binding: FragmentGlobalBinding? = null
