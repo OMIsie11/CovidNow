@@ -10,6 +10,7 @@ import io.github.omisie11.coronatracker.testGlobalSummary
 import java.util.concurrent.Executors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
@@ -62,7 +63,7 @@ class GlobalSummaryDaoTest {
     fun testInsertAndGetSummary() = runBlocking {
         globalSummaryDao.insert(testGlobalData)
 
-        val result = globalSummaryDao.getGlobalSummaryFlow().take(1).toList()[0]
+        val result = globalSummaryDao.getGlobalSummaryFlow().first()
 
         assertThat(result.confirmed, equalTo(testGlobalData.confirmed))
         assertThat(result.recovered, equalTo(testGlobalData.recovered))
@@ -77,7 +78,7 @@ class GlobalSummaryDaoTest {
         globalSummaryDao.replace(testGlobalData)
         globalSummaryDao.replace(testGlobalData)
 
-        val result: GlobalSummary = globalSummaryDao.getGlobalSummaryFlow().take(1).toList()[0]
+        val result: GlobalSummary = globalSummaryDao.getGlobalSummaryFlow().first()
         assertThat(result.confirmed, equalTo(testGlobalData.confirmed))
         assertThat(result.recovered, equalTo(testGlobalData.recovered))
         assertThat(result.deaths, equalTo(testGlobalData.deaths))

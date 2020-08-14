@@ -11,6 +11,7 @@ import io.github.omisie11.coronatracker.testLocalSummary
 import java.util.concurrent.Executors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
@@ -62,7 +63,7 @@ class LocalSummaryTest {
     fun testInsertAndGetSummary() = runBlocking {
         localSummaryDao.insert(testLocalData)
 
-        val result = localSummaryDao.getLocalSummaryFlow().take(1).toList()[0]
+        val result = localSummaryDao.getLocalSummaryFlow().first()
 
         assertThat(result.confirmed, CoreMatchers.equalTo(testLocalData.confirmed))
         assertThat(result.recovered, CoreMatchers.equalTo(testLocalData.recovered))
@@ -76,7 +77,7 @@ class LocalSummaryTest {
         localSummaryDao.replace(testLocalData)
         localSummaryDao.replace(testLocalData)
 
-        val result: LocalSummary = localSummaryDao.getLocalSummaryFlow().take(1).toList()[0]
+        val result: LocalSummary = localSummaryDao.getLocalSummaryFlow().first()
         assertThat(result.confirmed, CoreMatchers.equalTo(testLocalData.confirmed))
         assertThat(result.recovered, CoreMatchers.equalTo(testLocalData.recovered))
         assertThat(result.deaths, CoreMatchers.equalTo(testLocalData.deaths))
