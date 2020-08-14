@@ -2,8 +2,10 @@ package io.github.omisie11.coronatracker.ui.local
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.github.mikephil.charting.data.PieEntry
+import com.nhaarman.mockitokotlin2.timeout
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import io.github.omisie11.coronatracker.data.local.model.LocalSummary
 import io.github.omisie11.coronatracker.data.repository.LocalSummaryRepository
 import io.github.omisie11.coronatracker.utils.getValue
@@ -60,17 +62,13 @@ class LocalViewModelTest {
 
     @Test
     fun getLocalSummary() {
-        val localSummaryFlow = flowOf(testLocalData)
-        Mockito.`when`(repository.getLocalSummaryFlow()).thenAnswer {
-            return@thenAnswer localSummaryFlow
-        }
-        val localChartDataFlow = flowOf(testLocalChartData)
-        Mockito.`when`(repository.getLocalSummaryPieChartDataFlow()).thenAnswer {
-            return@thenAnswer localChartDataFlow
-        }
-        Mockito.`when`(repository.getFetchingStatus()).thenAnswer {
-            return@thenAnswer MutableStateFlow(false)
-        }
+        whenever(repository.getLocalSummaryFlow())
+            .thenReturn(flowOf(testLocalData))
+        whenever(repository.getLocalSummaryPieChartDataFlow())
+            .thenReturn(flowOf(testLocalChartData))
+        whenever(repository.getFetchingStatus())
+            .thenReturn(MutableStateFlow(false))
+
         localViewModel = LocalViewModel(repository)
         val result: LocalSummary = getValue(localViewModel.getSummary())
 
@@ -79,17 +77,13 @@ class LocalViewModelTest {
 
     @Test
     fun getLocalPieChartData() {
-        val localSummaryFlow = flowOf(testLocalData)
-        Mockito.`when`(repository.getLocalSummaryFlow()).thenAnswer {
-            return@thenAnswer localSummaryFlow
-        }
-        val localChartDataFlow = flowOf(testLocalChartData)
-        Mockito.`when`(repository.getLocalSummaryPieChartDataFlow()).thenAnswer {
-            return@thenAnswer localChartDataFlow
-        }
-        Mockito.`when`(repository.getFetchingStatus()).thenAnswer {
-            return@thenAnswer MutableStateFlow(false)
-        }
+        whenever(repository.getLocalSummaryFlow())
+            .thenReturn(flowOf(testLocalData))
+        whenever(repository.getLocalSummaryPieChartDataFlow())
+            .thenReturn(flowOf(testLocalChartData))
+        whenever(repository.getFetchingStatus())
+            .thenReturn(MutableStateFlow(false))
+
         localViewModel = LocalViewModel(repository)
         val result: List<PieEntry> = getValue(localViewModel.getLocalPieChartData())
 
@@ -98,20 +92,17 @@ class LocalViewModelTest {
 
     @Test
     fun refreshLocalSummary_verifyCalls() = runBlocking {
-        val localSummaryFlow = flowOf(testLocalData)
-        Mockito.`when`(repository.getLocalSummaryFlow()).thenAnswer {
-            return@thenAnswer localSummaryFlow
-        }
-        val localChartDataFlow = flowOf(testLocalChartData)
-        Mockito.`when`(repository.getLocalSummaryPieChartDataFlow()).thenAnswer {
-            return@thenAnswer localChartDataFlow
-        }
-        Mockito.`when`(repository.getFetchingStatus()).thenAnswer {
-            return@thenAnswer MutableStateFlow(true)
-        }
+        whenever(repository.getLocalSummaryFlow())
+            .thenReturn(flowOf(testLocalData))
+        whenever(repository.getLocalSummaryPieChartDataFlow())
+            .thenReturn(flowOf(testLocalChartData))
+        whenever(repository.getFetchingStatus())
+            .thenReturn(MutableStateFlow(true))
+
         localViewModel = LocalViewModel(repository)
         localViewModel.refreshLocalSummary(forceRefresh = true)
 
-        verify(repository, times(1)).refreshData(Mockito.eq(true))
+        verify(repository, timeout(1000).times(1))
+            .refreshData(Mockito.eq(true))
     }
 }

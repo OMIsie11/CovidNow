@@ -1,8 +1,10 @@
 package io.github.omisie11.coronatracker.ui.settings
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.nhaarman.mockitokotlin2.timeout
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import io.github.omisie11.coronatracker.data.repository.CountriesRepository
 import io.github.omisie11.coronatracker.utils.getValue
 import io.github.omisie11.coronatracker.utils.testCountry1
@@ -34,7 +36,7 @@ import org.mockito.MockitoAnnotations
 @RunWith(JUnit4::class)
 class CountriesViewModelTest {
 
-    private val testCountriesList = listOf<String>(
+    private val testCountriesNames = listOf<String>(
         testCountry1.name,
         testCountry2.name,
         testCountry3.name,
@@ -68,31 +70,24 @@ class CountriesViewModelTest {
 
     @Test
     fun getCountries() {
-        val countriesFlow = flowOf(testCountriesList)
-        Mockito.`when`(repository.getCountriesNamesFlow()).thenAnswer {
-            return@thenAnswer countriesFlow
-        }
-        Mockito.`when`(repository.getFetchingStatus()).thenAnswer {
-            return@thenAnswer MutableStateFlow(false)
-        }
+        whenever(repository.getCountriesNamesFlow()).thenReturn(flowOf(testCountriesNames))
+        whenever(repository.getFetchingStatus()).thenReturn(MutableStateFlow(false))
+
         countriesViewModel = CountriesViewModel(repository)
         val result: List<String> = getValue(countriesViewModel.getCountries())
 
-        assertEquals(testCountriesList, result)
+        assertEquals(testCountriesNames, result)
     }
 
     @Test
     fun refreshCountries_verifyCalls() = runBlocking {
-        val countriesFlow = flowOf(testCountriesList)
-        Mockito.`when`(repository.getCountriesNamesFlow()).thenAnswer {
-            return@thenAnswer countriesFlow
-        }
-        Mockito.`when`(repository.getFetchingStatus()).thenAnswer {
-            return@thenAnswer MutableStateFlow(false)
-        }
+        whenever(repository.getCountriesNamesFlow()).thenReturn(flowOf(testCountriesNames))
+        whenever(repository.getFetchingStatus()).thenReturn(MutableStateFlow(false))
+
         countriesViewModel = CountriesViewModel(repository)
         countriesViewModel.refreshCountriesData(forceRefresh = true)
 
-        verify(repository, times(1)).refreshData(Mockito.eq(true))
+        verify(repository, timeout(1000).times(1))
+            .refreshData(Mockito.eq(true))
     }
 }

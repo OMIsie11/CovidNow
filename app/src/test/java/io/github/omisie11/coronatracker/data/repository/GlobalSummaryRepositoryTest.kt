@@ -4,8 +4,8 @@ import android.content.SharedPreferences
 import com.github.mikephil.charting.data.PieEntry
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import io.github.omisie11.coronatracker.data.local.dao.GlobalSummaryDao
-import io.github.omisie11.coronatracker.data.local.model.GlobalSummary
 import io.github.omisie11.coronatracker.data.remote.ApiService
 import io.github.omisie11.coronatracker.data.remote.model.GlobalSummaryRemote
 import io.github.omisie11.coronatracker.utils.testGlobalSummary
@@ -13,9 +13,8 @@ import io.github.omisie11.coronatracker.utils.testGlobalSummaryPieChartData
 import io.github.omisie11.coronatracker.utils.testGlobalSummaryRemote
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -29,7 +28,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import retrofit2.Response
 
@@ -70,13 +68,9 @@ class GlobalSummaryRepositoryTest {
 
     @Test
     fun getGlobalSummaryFlow() = runBlocking {
-        val globalSummaryFlow = flowOf(testGlobalSummaryLocal)
+        whenever(globalSummaryDao.getGlobalSummaryFlow()).thenReturn(flowOf(testGlobalSummaryLocal))
 
-        Mockito.`when`(globalSummaryDao.getGlobalSummaryFlow()).thenAnswer {
-            return@thenAnswer globalSummaryFlow
-        }
-        val result: GlobalSummary =
-            globalSummaryRepository.getGlobalSummaryFlow().take(1).toList()[0]
+        val result = globalSummaryRepository.getGlobalSummaryFlow().first()
 
         verify(globalSummaryDao, times(1)).getGlobalSummaryFlow()
         assertEquals(result, testGlobalSummaryLocal)
@@ -84,15 +78,10 @@ class GlobalSummaryRepositoryTest {
 
     @Test
     fun getGlobalSummaryPieChartDataFlow_validData() = runBlocking {
-        val globalSummaryFlow = flowOf(testGlobalSummaryLocal)
-
-        Mockito.`when`(globalSummaryDao.getGlobalSummaryFlow()).thenAnswer {
-            return@thenAnswer globalSummaryFlow
-        }
+        whenever(globalSummaryDao.getGlobalSummaryFlow()).thenReturn(flowOf(testGlobalSummaryLocal))
 
         val expected: List<PieEntry> = testGlobalChartData
-        val result: List<PieEntry> = globalSummaryRepository.getGlobalSummaryPieChartDataFlow()
-            .take(1).toList()[0]
+        val result = globalSummaryRepository.getGlobalSummaryPieChartDataFlow().first()
 
         verify(globalSummaryDao, times(1)).getGlobalSummaryFlow()
         for (i in result.indices) {
@@ -102,10 +91,8 @@ class GlobalSummaryRepositoryTest {
 
     @Test
     fun refreshData_force_validResponse_VerifyDataSaved() = runBlocking {
-        val networkResponse = Response.success(testGlobalSummaryRemote)
-        Mockito.`when`(apiService.getGlobalSummary()).thenAnswer {
-            return@thenAnswer networkResponse
-        }
+        val successResponse = Response.success(testGlobalSummaryRemote)
+        whenever(apiService.getGlobalSummary()).thenReturn(successResponse)
 
         globalSummaryRepository.refreshData(forceRefresh = true)
 
@@ -115,15 +102,13 @@ class GlobalSummaryRepositoryTest {
 
     @Test
     fun refreshData_force_errorResponse_VerifyNotDataSaved() = runBlocking {
-        val responseError: Response<GlobalSummaryRemote> = Response.error(
+        val errorResponse: Response<GlobalSummaryRemote> = Response.error(
             403,
             ResponseBody.create(
                 MediaType.parse("application/json"), "Bad Request"
             )
         )
-        Mockito.`when`(apiService.getGlobalSummary()).thenAnswer {
-            return@thenAnswer responseError
-        }
+        whenever(apiService.getGlobalSummary()).thenReturn(errorResponse)
 
         globalSummaryRepository.refreshData(forceRefresh = true)
 

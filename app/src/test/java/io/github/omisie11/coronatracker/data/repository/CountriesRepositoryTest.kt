@@ -3,21 +3,17 @@ package io.github.omisie11.coronatracker.data.repository
 import android.content.SharedPreferences
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import io.github.omisie11.coronatracker.data.local.dao.CountriesDao
 import io.github.omisie11.coronatracker.data.remote.ApiService
 import io.github.omisie11.coronatracker.data.remote.model.CountriesRemote
+import io.github.omisie11.coronatracker.utils.testCountriesLocalList
+import io.github.omisie11.coronatracker.utils.testCountriesLocalNames
 import io.github.omisie11.coronatracker.utils.testCountriesRemote
-import io.github.omisie11.coronatracker.utils.testCountry1
-import io.github.omisie11.coronatracker.utils.testCountry2
-import io.github.omisie11.coronatracker.utils.testCountry3
-import io.github.omisie11.coronatracker.utils.testCountry4
-import io.github.omisie11.coronatracker.utils.testCountry5
-import io.github.omisie11.coronatracker.utils.testCountry6
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -31,22 +27,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import retrofit2.Response
 
 @ExperimentalCoroutinesApi
 @RunWith(JUnit4::class)
 class CountriesRepositoryTest {
-
-    private val testCountriesLocalList = listOf(
-        testCountry1,
-        testCountry2,
-        testCountry3,
-        testCountry4,
-        testCountry5,
-        testCountry6
-    )
 
     private val testDispatcher = TestCoroutineDispatcher()
 
@@ -78,25 +64,19 @@ class CountriesRepositoryTest {
 
     @Test
     fun getCountriesNamesFlowTest() = runBlocking {
-        val countriesFlow = flowOf(testCountriesLocalList)
+        whenever(countriesDao.getCountriesNamesFlow()).thenReturn(flowOf(testCountriesLocalNames))
 
-        Mockito.`when`(countriesDao.getCountriesNamesFlow()).thenAnswer {
-            return@thenAnswer countriesFlow
-        }
-
-        val result: List<String> =
-            countriesRepository.getCountriesNamesFlow().take(1).toList()[0]
+        val result = countriesRepository.getCountriesNamesFlow().first()
 
         verify(countriesDao, times(1)).getCountriesNamesFlow()
-        assertEquals(result, testCountriesLocalList)
+        assertEquals(result, testCountriesLocalNames)
     }
 
     @Test
     fun refreshData_force_validResponse_VerifyDataSaved() = runBlocking {
-        val networkResponse = Response.success(testCountriesRemote)
-        Mockito.`when`(apiService.getCountries()).thenAnswer {
-            return@thenAnswer networkResponse
-        }
+        val successResponse = Response.success(testCountriesRemote)
+        whenever(apiService.getCountries()).thenReturn(successResponse)
+
         countriesRepository.refreshData(forceRefresh = true)
 
         verify(apiService, times(1)).getCountries()
@@ -105,15 +85,14 @@ class CountriesRepositoryTest {
 
     @Test
     fun refreshData_force_errorResponse_VerifyNotDataSaved() = runBlocking {
-        val responseError: Response<CountriesRemote> = Response.error(
+        val errorResponse: Response<CountriesRemote> = Response.error(
             403,
             ResponseBody.create(
                 MediaType.parse("application/json"), "Bad Request"
             )
         )
-        Mockito.`when`(apiService.getCountries()).thenAnswer {
-            return@thenAnswer responseError
-        }
+
+        whenever(apiService.getCountries()).thenReturn(errorResponse)
         countriesRepository.refreshData(forceRefresh = true)
 
         verify(apiService, times(1)).getCountries()

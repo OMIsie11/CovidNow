@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import com.github.mikephil.charting.data.PieEntry
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import io.github.omisie11.coronatracker.data.local.dao.LocalSummaryDao
 import io.github.omisie11.coronatracker.data.local.model.LocalSummary
 import io.github.omisie11.coronatracker.data.remote.ApiService
@@ -14,9 +15,8 @@ import io.github.omisie11.coronatracker.utils.testLocalSummaryPieChartData
 import io.github.omisie11.coronatracker.utils.testLocalSummaryRemote
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -30,7 +30,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import retrofit2.Response
 
@@ -72,13 +71,9 @@ class LocalSummaryRepositoryTest {
 
     @Test
     fun getLocalSummaryFlowTest() = runBlocking {
-        val localSummaryFlow = flowOf(testLocalSummaryLocal)
-        Mockito.`when`(localSummaryDao.getLocalSummaryFlow()).thenAnswer {
-            return@thenAnswer localSummaryFlow
-        }
+        whenever(localSummaryDao.getLocalSummaryFlow()).thenReturn(flowOf(testLocalSummaryLocal))
 
-        val result: LocalSummary =
-            localSummaryRepository.getLocalSummaryFlow().take(1).toList()[0]
+        val result: LocalSummary = localSummaryRepository.getLocalSummaryFlow().first()
 
         verify(localSummaryDao, times(1)).getLocalSummaryFlow()
         assertEquals(result, testLocalSummaryLocal)
@@ -86,14 +81,13 @@ class LocalSummaryRepositoryTest {
 
     @Test
     fun getLocalSummaryPieChartDataFlow_validData() = runBlocking {
-        val localSummaryFlow = flowOf(testLocalSummaryLocal)
-        Mockito.`when`(localSummaryDao.getLocalSummaryFlow()).thenAnswer {
-            return@thenAnswer localSummaryFlow
-        }
+        whenever(localSummaryDao.getLocalSummaryFlow()).thenReturn(flowOf(testLocalSummaryLocal))
+
         val expected: List<PieEntry> = testLocalChartData
 
-        val result: List<PieEntry> = localSummaryRepository.getLocalSummaryPieChartDataFlow()
-            .take(1).toList()[0]
+        val result = localSummaryRepository
+            .getLocalSummaryPieChartDataFlow()
+            .first()
 
         verify(localSummaryDao, times(1)).getLocalSummaryFlow()
         for (i in result.indices) {
@@ -103,10 +97,9 @@ class LocalSummaryRepositoryTest {
 
     @Test
     fun refreshData_force_validResponse_VerifyDataSaved() = runBlocking {
-        val networkResponse = Response.success(testLocalSummaryRemote)
-        Mockito.`when`(apiService.getLocalSummary(testCountryUrl)).thenAnswer {
-            return@thenAnswer networkResponse
-        }
+        val successResponse = Response.success(testLocalSummaryRemote)
+        whenever(apiService.getLocalSummary(testCountryUrl)).thenReturn(successResponse)
+
         localSummaryRepository.refreshData(forceRefresh = true)
 
         verify(apiService, times(1)).getLocalSummary(testCountryUrl)
@@ -115,15 +108,14 @@ class LocalSummaryRepositoryTest {
 
     @Test
     fun refreshData_force_errorResponse_VerifyNotDataSaved() = runBlocking {
-        val responseError: Response<LocalSummaryRemote> = Response.error(
+        val errorResponse: Response<LocalSummaryRemote> = Response.error(
             403,
             ResponseBody.create(
                 MediaType.parse("application/json"), "Bad Request"
             )
         )
-        Mockito.`when`(apiService.getLocalSummary(testCountryUrl)).thenAnswer {
-            return@thenAnswer responseError
-        }
+        whenever(apiService.getLocalSummary(testCountryUrl)).thenReturn(errorResponse)
+
         localSummaryRepository.refreshData(forceRefresh = true)
 
         verify(apiService, times(1)).getLocalSummary(testCountryUrl)

@@ -28,3 +28,21 @@ val testCountriesRemote = CountriesRemote(
         testCountryRemote6
     )
 )
+
+val testCountriesLocalList = listOf(
+    testCountry1,
+    testCountry2,
+    testCountry3,
+    testCountry4,
+    testCountry5,
+    testCountry6
+)
+
+val testCountriesLocalNames = listOf(
+    testCountry1.name,
+    testCountry2.name,
+    testCountry3.name,
+    testCountry4.name,
+    testCountry5.name,
+    testCountry6.name
+)

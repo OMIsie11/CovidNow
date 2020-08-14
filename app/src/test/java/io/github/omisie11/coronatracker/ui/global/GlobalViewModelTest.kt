@@ -2,8 +2,10 @@ package io.github.omisie11.coronatracker.ui.global
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.github.mikephil.charting.data.PieEntry
+import com.nhaarman.mockitokotlin2.timeout
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import io.github.omisie11.coronatracker.data.local.model.GlobalSummary
 import io.github.omisie11.coronatracker.data.repository.GlobalSummaryRepository
 import io.github.omisie11.coronatracker.utils.getValue
@@ -60,17 +62,13 @@ class GlobalViewModelTest {
 
     @Test
     fun getGlobalSummary() {
-        val globalSummaryFlow = flowOf(testGlobalData)
-        Mockito.`when`(repository.getGlobalSummaryFlow()).thenAnswer {
-            return@thenAnswer globalSummaryFlow
-        }
-        val globalChartDataFlow = flowOf(testGlobalChartData)
-        Mockito.`when`(repository.getGlobalSummaryPieChartDataFlow()).thenAnswer {
-            return@thenAnswer globalChartDataFlow
-        }
-        Mockito.`when`(repository.getFetchingStatus()).thenAnswer {
-            return@thenAnswer MutableStateFlow(false)
-        }
+        whenever(repository.getGlobalSummaryFlow())
+            .thenReturn(flowOf(testGlobalData))
+        whenever(repository.getGlobalSummaryPieChartDataFlow())
+            .thenReturn(flowOf(testGlobalChartData))
+        whenever(repository.getFetchingStatus())
+            .thenReturn(MutableStateFlow(false))
+
         globalViewModel = GlobalViewModel(repository)
         val result: GlobalSummary = getValue(globalViewModel.getGlobalSummary())
 
@@ -79,17 +77,13 @@ class GlobalViewModelTest {
 
     @Test
     fun getGlobalPieChartData() {
-        val globalSummaryFlow = flowOf(testGlobalData)
-        Mockito.`when`(repository.getGlobalSummaryFlow()).thenAnswer {
-            return@thenAnswer globalSummaryFlow
-        }
-        val globalChartDataFlow = flowOf(testGlobalChartData)
-        Mockito.`when`(repository.getGlobalSummaryPieChartDataFlow()).thenAnswer {
-            return@thenAnswer globalChartDataFlow
-        }
-        Mockito.`when`(repository.getFetchingStatus()).thenAnswer {
-            return@thenAnswer MutableStateFlow(false)
-        }
+        whenever(repository.getGlobalSummaryFlow())
+            .thenReturn(flowOf(testGlobalData))
+        whenever(repository.getGlobalSummaryPieChartDataFlow())
+            .thenReturn(flowOf(testGlobalChartData))
+        whenever(repository.getFetchingStatus())
+            .thenReturn(MutableStateFlow(false))
+
         globalViewModel = GlobalViewModel(repository)
         val result: List<PieEntry> = getValue(globalViewModel.getGlobalPieChartData())
 
@@ -98,20 +92,17 @@ class GlobalViewModelTest {
 
     @Test
     fun refreshGlobalSummary_verifyCalls() = runBlocking {
-        val globalSummaryFlow = flowOf(testGlobalData)
-        Mockito.`when`(repository.getGlobalSummaryFlow()).thenAnswer {
-            return@thenAnswer globalSummaryFlow
-        }
-        val globalChartDataFlow = flowOf(testGlobalChartData)
-        Mockito.`when`(repository.getGlobalSummaryPieChartDataFlow()).thenAnswer {
-            return@thenAnswer globalChartDataFlow
-        }
-        Mockito.`when`(repository.getFetchingStatus()).thenAnswer {
-            return@thenAnswer MutableStateFlow(true)
-        }
+        whenever(repository.getGlobalSummaryFlow())
+            .thenReturn(flowOf(testGlobalData))
+        whenever(repository.getGlobalSummaryPieChartDataFlow())
+            .thenReturn(flowOf(testGlobalChartData))
+        whenever(repository.getFetchingStatus())
+            .thenReturn(MutableStateFlow(true))
+
         globalViewModel = GlobalViewModel(repository)
         globalViewModel.refreshGlobalSummary(forceRefresh = true)
 
-        verify(repository, times(1)).refreshData(Mockito.eq(true))
+        verify(repository, timeout(1000).times(1))
+            .refreshData(Mockito.eq(true))
     }
 }
