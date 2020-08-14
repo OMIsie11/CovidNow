@@ -70,7 +70,7 @@ class LocalSummaryRepositoryTest {
     }
 
     @Test
-    fun getLocalSummaryFlowTest() = runBlocking {
+    fun `get data with local summary info`() = runBlocking {
         whenever(localSummaryDao.getLocalSummaryFlow()).thenReturn(flowOf(testLocalSummaryLocal))
 
         val result: LocalSummary = localSummaryRepository.getLocalSummaryFlow().first()
@@ -80,7 +80,7 @@ class LocalSummaryRepositoryTest {
     }
 
     @Test
-    fun getLocalSummaryPieChartDataFlow_validData() = runBlocking {
+    fun `get data for local summary pie chart`() = runBlocking {
         whenever(localSummaryDao.getLocalSummaryFlow()).thenReturn(flowOf(testLocalSummaryLocal))
 
         val expected: List<PieEntry> = testLocalChartData
@@ -96,7 +96,7 @@ class LocalSummaryRepositoryTest {
     }
 
     @Test
-    fun refreshData_force_validResponse_VerifyDataSaved() = runBlocking {
+    fun `verify calls performed on force refresh with valid response`() = runBlocking {
         val successResponse = Response.success(testLocalSummaryRemote)
         whenever(apiService.getLocalSummary(testCountryUrl)).thenReturn(successResponse)
 
@@ -107,7 +107,7 @@ class LocalSummaryRepositoryTest {
     }
 
     @Test
-    fun refreshData_force_errorResponse_VerifyNotDataSaved() = runBlocking {
+    fun `verify calls performed on force refresh with error response`() = runBlocking {
         val errorResponse: Response<LocalSummaryRemote> = Response.error(
             403,
             ResponseBody.create(

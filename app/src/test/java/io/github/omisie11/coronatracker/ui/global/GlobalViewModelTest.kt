@@ -3,7 +3,6 @@ package io.github.omisie11.coronatracker.ui.global
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.github.mikephil.charting.data.PieEntry
 import com.nhaarman.mockitokotlin2.timeout
-import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.github.omisie11.coronatracker.data.local.model.GlobalSummary
@@ -61,7 +60,7 @@ class GlobalViewModelTest {
     }
 
     @Test
-    fun getGlobalSummary() {
+    fun `get global summary info`() {
         whenever(repository.getGlobalSummaryFlow())
             .thenReturn(flowOf(testGlobalData))
         whenever(repository.getGlobalSummaryPieChartDataFlow())
@@ -76,7 +75,7 @@ class GlobalViewModelTest {
     }
 
     @Test
-    fun getGlobalPieChartData() {
+    fun `get global summary data for pie chart`() {
         whenever(repository.getGlobalSummaryFlow())
             .thenReturn(flowOf(testGlobalData))
         whenever(repository.getGlobalSummaryPieChartDataFlow())
@@ -91,7 +90,7 @@ class GlobalViewModelTest {
     }
 
     @Test
-    fun refreshGlobalSummary_verifyCalls() = runBlocking {
+    fun `verify calls when refreshing data`() = runBlocking {
         whenever(repository.getGlobalSummaryFlow())
             .thenReturn(flowOf(testGlobalData))
         whenever(repository.getGlobalSummaryPieChartDataFlow())

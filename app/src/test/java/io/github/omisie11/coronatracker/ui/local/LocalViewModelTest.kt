@@ -3,7 +3,6 @@ package io.github.omisie11.coronatracker.ui.local
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.github.mikephil.charting.data.PieEntry
 import com.nhaarman.mockitokotlin2.timeout
-import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.github.omisie11.coronatracker.data.local.model.LocalSummary
@@ -61,7 +60,7 @@ class LocalViewModelTest {
     }
 
     @Test
-    fun getLocalSummary() {
+    fun `get local summary data`() {
         whenever(repository.getLocalSummaryFlow())
             .thenReturn(flowOf(testLocalData))
         whenever(repository.getLocalSummaryPieChartDataFlow())
@@ -76,7 +75,7 @@ class LocalViewModelTest {
     }
 
     @Test
-    fun getLocalPieChartData() {
+    fun `get local summary data for pie chart`() {
         whenever(repository.getLocalSummaryFlow())
             .thenReturn(flowOf(testLocalData))
         whenever(repository.getLocalSummaryPieChartDataFlow())
@@ -91,7 +90,7 @@ class LocalViewModelTest {
     }
 
     @Test
-    fun refreshLocalSummary_verifyCalls() = runBlocking {
+    fun `verify calls when refreshing data`() = runBlocking {
         whenever(repository.getLocalSummaryFlow())
             .thenReturn(flowOf(testLocalData))
         whenever(repository.getLocalSummaryPieChartDataFlow())

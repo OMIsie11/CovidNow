@@ -51,14 +51,14 @@ class MappersExtensionsKtTest {
     )
 
     @Test
-    fun mapToLocalSummary_Global_validObject() {
+    fun `map remote Global Summary model to locally used`() {
         val expected = testGlobalSummary
         val result = testGlobalSummaryRemote.mapToLocalSummary()
         assertEquals(expected, result)
     }
 
     @Test
-    fun mapToLocalSummary_Global_withNulls() {
+    fun `map remote Global Summary model with null values to locally used`() {
         val testDataWithNulls = GlobalSummaryRemote(
             null,
             null,
@@ -79,14 +79,14 @@ class MappersExtensionsKtTest {
     }
 
     @Test
-    fun mapToLocalSummary_Local_validObject() {
+    fun `map remote Local Summary model to locally used`() {
         val expected = testLocalSummary
         val result = testLocalSummaryRemote.mapToLocalSummary()
         assertEquals(expected, result)
     }
 
     @Test
-    fun mapToLocalSummary_Local_withNulls() {
+    fun `map remote Local Summary model with null values to locally used`() {
         val testDataWithNulls = LocalSummaryRemote(
             null,
             null,
@@ -105,14 +105,14 @@ class MappersExtensionsKtTest {
     }
 
     @Test
-    fun mapToLocalCountry_validData() {
+    fun `map list of remote Countries model objects to locally used`() {
         val expected = testCountriesList
         val result = testCountriesRemote.mapToLocalCountryList()
         assertEquals(expected, result)
     }
 
     @Test
-    fun mapToLocalCountry_emptyList() {
+    fun `map empty list of remote Countries model objects to locally used`() {
         val testCountriesEmpty = CountriesRemote(emptyList())
         val expected = emptyList<Country>()
         val result = testCountriesEmpty.mapToLocalCountryList()

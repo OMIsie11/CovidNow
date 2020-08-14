@@ -67,7 +67,7 @@ class GlobalSummaryRepositoryTest {
     }
 
     @Test
-    fun getGlobalSummaryFlow() = runBlocking {
+    fun `get data with global summary info`() = runBlocking {
         whenever(globalSummaryDao.getGlobalSummaryFlow()).thenReturn(flowOf(testGlobalSummaryLocal))
 
         val result = globalSummaryRepository.getGlobalSummaryFlow().first()
@@ -77,7 +77,7 @@ class GlobalSummaryRepositoryTest {
     }
 
     @Test
-    fun getGlobalSummaryPieChartDataFlow_validData() = runBlocking {
+    fun `get data for global summary chart`() = runBlocking {
         whenever(globalSummaryDao.getGlobalSummaryFlow()).thenReturn(flowOf(testGlobalSummaryLocal))
 
         val expected: List<PieEntry> = testGlobalChartData
@@ -90,7 +90,7 @@ class GlobalSummaryRepositoryTest {
     }
 
     @Test
-    fun refreshData_force_validResponse_VerifyDataSaved() = runBlocking {
+    fun `verify calls performed on force refresh with valid response`() = runBlocking {
         val successResponse = Response.success(testGlobalSummaryRemote)
         whenever(apiService.getGlobalSummary()).thenReturn(successResponse)
 
@@ -101,7 +101,7 @@ class GlobalSummaryRepositoryTest {
     }
 
     @Test
-    fun refreshData_force_errorResponse_VerifyNotDataSaved() = runBlocking {
+    fun `verify calls performed on force refresh with error response`() = runBlocking {
         val errorResponse: Response<GlobalSummaryRemote> = Response.error(
             403,
             ResponseBody.create(

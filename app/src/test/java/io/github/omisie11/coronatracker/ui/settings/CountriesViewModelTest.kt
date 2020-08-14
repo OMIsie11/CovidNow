@@ -2,7 +2,6 @@ package io.github.omisie11.coronatracker.ui.settings
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockitokotlin2.timeout
-import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.github.omisie11.coronatracker.data.repository.CountriesRepository
@@ -36,7 +35,7 @@ import org.mockito.MockitoAnnotations
 @RunWith(JUnit4::class)
 class CountriesViewModelTest {
 
-    private val testCountriesNames = listOf<String>(
+    private val testCountriesNames = listOf(
         testCountry1.name,
         testCountry2.name,
         testCountry3.name,
@@ -69,7 +68,7 @@ class CountriesViewModelTest {
     }
 
     @Test
-    fun getCountries() {
+    fun `get countries list`() {
         whenever(repository.getCountriesNamesFlow()).thenReturn(flowOf(testCountriesNames))
         whenever(repository.getFetchingStatus()).thenReturn(MutableStateFlow(false))
 
@@ -80,7 +79,7 @@ class CountriesViewModelTest {
     }
 
     @Test
-    fun refreshCountries_verifyCalls() = runBlocking {
+    fun `verify calls when refreshing data`() = runBlocking {
         whenever(repository.getCountriesNamesFlow()).thenReturn(flowOf(testCountriesNames))
         whenever(repository.getFetchingStatus()).thenReturn(MutableStateFlow(false))
 

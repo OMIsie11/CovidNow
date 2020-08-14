@@ -63,7 +63,7 @@ class CountriesRepositoryTest {
     }
 
     @Test
-    fun getCountriesNamesFlowTest() = runBlocking {
+    fun `get countries names flow`() = runBlocking {
         whenever(countriesDao.getCountriesNamesFlow()).thenReturn(flowOf(testCountriesLocalNames))
 
         val result = countriesRepository.getCountriesNamesFlow().first()
@@ -73,7 +73,7 @@ class CountriesRepositoryTest {
     }
 
     @Test
-    fun refreshData_force_validResponse_VerifyDataSaved() = runBlocking {
+    fun `verify calls performed on force refresh with valid response`() = runBlocking {
         val successResponse = Response.success(testCountriesRemote)
         whenever(apiService.getCountries()).thenReturn(successResponse)
 
@@ -84,7 +84,7 @@ class CountriesRepositoryTest {
     }
 
     @Test
-    fun refreshData_force_errorResponse_VerifyNotDataSaved() = runBlocking {
+    fun `verify calls performed on force refresh with error response`() = runBlocking {
         val errorResponse: Response<CountriesRemote> = Response.error(
             403,
             ResponseBody.create(
