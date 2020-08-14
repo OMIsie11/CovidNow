@@ -19,7 +19,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class BottomNavDestinationsEspressoTests {
+class MainDestinationsEspressoTests {
 
     @get:Rule
     val activityRule = ActivityTestRule(MainActivity::class.java)
@@ -68,31 +68,7 @@ class BottomNavDestinationsEspressoTests {
         onView(withId(R.id.settings_dest))
             .perform(click())
 
-        // Check if settings are present by trying to click on each one
-        // RecyclerView actions are used because normal approach is not
-        // working with preferences from support lib
-        onView(withId(R.id.recycler_view))
-            .perform(
-                RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(R.string.settings_refresh_interval_title)),
-                    click()
-                )
-            )
-        pressBack()
-        onView(withId(R.id.recycler_view))
-            .perform(
-                RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(R.string.settings_dark_mode_title)),
-                    click()
-                )
-            )
-        onView(withId(R.id.recycler_view))
-            .perform(
-                RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(R.string.country_showed_in_local_tab)),
-                    click()
-                )
-            )
+        validateSettingsScreen()
     }
 
     @Test
@@ -137,5 +113,43 @@ class BottomNavDestinationsEspressoTests {
         onView(withId(R.id.textView5))
             .check(matches(isDisplayed()))
             .check(matches(withText(R.string.privacy_info)))
+    }
+
+    @Test
+    fun clickOnEditLocationImageInLocalScreenOpenSettings() {
+        onView(withId(R.id.local_dest))
+            .perform(click())
+        onView(withId(R.id.image_edit_location))
+            .perform(click())
+
+        validateSettingsScreen()
+    }
+
+    private fun validateSettingsScreen() {
+        // Check if settings are present by trying to click on each one
+        // RecyclerView actions are used because normal approach is not
+        // working with preferences from support lib
+        onView(withId(R.id.recycler_view))
+            .perform(
+                RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
+                    hasDescendant(withText(R.string.settings_refresh_interval_title)),
+                    click()
+                )
+            )
+        pressBack()
+        onView(withId(R.id.recycler_view))
+            .perform(
+                RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
+                    hasDescendant(withText(R.string.settings_dark_mode_title)),
+                    click()
+                )
+            )
+        onView(withId(R.id.recycler_view))
+            .perform(
+                RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
+                    hasDescendant(withText(R.string.country_showed_in_local_tab)),
+                    click()
+                )
+            )
     }
 }
